@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--圆形控件 CircularImageView  CirculaViewFramlayout-->
+    <declare-styleable name="CircularView">
+        <!--是否显示边框，true 显示，false 不显示-->
+        <attr name="showBorder" format="boolean" />
+        <!--边框颜色，默认为白色-->
+        <attr name="borderColor" format="color" />
+        <!--边框宽度，默认为1dp-->
+        <attr name="borderWidth" format="dimension" />
+
+        <!--左上、右上、右下、左下圆角 半径-->
+        <attr name="radiusLeftTop" format="dimension" />
+        <attr name="radiusRightTop" format="dimension" />
+        <attr name="radiusRightBottom" format="dimension" />
+        <attr name="radiusLeftBottom" format="dimension" />
+
+        <!--四个圆角的角度，当其他四个同时存在时候，以此为准-->
+        <attr name="radius" format="dimension" />
+
+    </declare-styleable>
+
+</resources>

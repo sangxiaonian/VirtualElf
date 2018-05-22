@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--默认左右间隔-->
+    <dimen name="dp_default_gap">16dp</dimen>
+
+</resources>
