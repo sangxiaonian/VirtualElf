@@ -13,11 +13,15 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setToolTitle("已安装应用");
+        setLefttImg(0);
         findViewById(R.id.bt).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(mContext, Loacition_PhoneAppdActivity.class));
             }
         });
+
+
     }
 }

@@ -2,6 +2,6 @@
 <resources>
 
     <!--默认左右间隔-->
-    <dimen name="dp_default_gap">16dp</dimen>
+    <dimen name="dp_default_gap">12dp</dimen>
 
 </resources>

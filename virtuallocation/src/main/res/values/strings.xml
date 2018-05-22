@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">VirtualLocation</string>
+    <string name="loaction_install">安装</string>
+    <string name="loaction_app">选择应用</string>
 </resources>

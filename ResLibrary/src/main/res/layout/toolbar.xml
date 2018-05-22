@@ -1,7 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tool"
     android:layout_width="match_parent"
-    android:layout_height="?actionBarSize">
+    android:layout_height="?actionBarSize"
+    android:background="@color/colorPrimary">
 
-</android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/left"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:clickable="true"
+        android:paddingLeft="@dimen/dp_default_gap"
+        android:paddingRight="@dimen/dp_default_gap">
+
+        <ImageView
+            android:clickable="false"
+            android:id="@+id/img_left"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            app:srcCompat="@drawable/ic_back_white" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tool_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="#ffffff"
+        android:textSize="17sp" />
+
+    <RelativeLayout
+        android:clickable="true"
+        android:id="@+id/right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:paddingLeft="@dimen/dp_default_gap"
+        android:paddingRight="@dimen/dp_default_gap">
+
+        <ImageView
+            android:clickable="false"
+            android:id="@+id/img_right"
+            android:layout_width="18dp"
+            android:layout_height="18dp" />
+
+        <TextView
+            android:clickable="false"
+            android:id="@+id/tv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
