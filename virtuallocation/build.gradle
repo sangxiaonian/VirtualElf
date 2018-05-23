@@ -5,13 +5,18 @@ android {
     buildToolsVersion var.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion  var.minSdkVersion
-        targetSdkVersion  var.targetSdkVersion
+        minSdkVersion var.minSdkVersion
+        targetSdkVersion var.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+    }
+    sourceSets {
+        main{
+            jniLibs.srcDirs = ['libs']
+        }
     }
 
     buildTypes {
@@ -25,6 +30,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

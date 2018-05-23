@@ -6,6 +6,7 @@ import android.view.View;
 
 import sang.com.commonlibrary.base.BaseActivity;
 import sang.com.virtuallocation.ui.Loacition_PhoneAppdActivity;
+import sang.com.virtuallocation.ui.Loaction_InstallAppActivity;
 
 public class MainActivity extends BaseActivity {
 
@@ -18,7 +19,7 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.bt).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mContext, Loacition_PhoneAppdActivity.class));
+                startActivity(new Intent(mContext, Loaction_InstallAppActivity.class));
             }
         });
 

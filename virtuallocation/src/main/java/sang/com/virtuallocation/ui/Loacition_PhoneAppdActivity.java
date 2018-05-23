@@ -21,6 +21,7 @@ import sang.com.commonlibrary.base.BaseActivity;
 import sang.com.commonlibrary.entity.AppInfor;
 import sang.com.commonlibrary.utils.AppUtils;
 import sang.com.commonlibrary.utils.ImageLoader;
+import sang.com.commonlibrary.utils.event.BusFactory;
 import sang.com.commonlibrary.utils.rx.CustomObserver;
 import sang.com.commonlibrary.utils.rx.RxUtils;
 import sang.com.commonlibrary.xadapter.XAdapter;
@@ -70,7 +71,8 @@ public class Loacition_PhoneAppdActivity extends BaseActivity {
                         list.add(infor.getT());
                     }
                 }
-                ToastUtils.showTextToast(mContext,list.size()+"");
+                BusFactory.getBus().post(list);
+                finish();
             }
         });
     }
@@ -112,7 +114,7 @@ public class Loacition_PhoneAppdActivity extends BaseActivity {
                 .map(new Function<PackageManager, List<AppInfor>>() {
                     @Override
                     public List<AppInfor> apply(PackageManager packageManager) throws Exception {
-                        return AppUtils.scanLocalInstallAppList(packageManager, false);
+                        return AppUtils.scanLocalInstallAppList(packageManager,false);
                     }
                 })
                 .flatMap(new Function<List<AppInfor>, Observable<AppInfor>>() {

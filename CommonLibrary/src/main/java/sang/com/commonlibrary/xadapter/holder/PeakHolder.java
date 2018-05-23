@@ -47,9 +47,10 @@ public class PeakHolder<T> extends RecyclerView.ViewHolder {
     /**
      * 初始化数据
      *
+     * @param itemView
      * @param position 在所有HeadeView中的位置
      */
-    public void initView(int position) {
+    public void initView(View itemView, int position) {
 
     }
 }

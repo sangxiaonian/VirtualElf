@@ -116,10 +116,10 @@ public abstract class XAdapter<T> extends RecyclerView.Adapter {
         int viewType = getItemViewType(position);
         if (viewType >= HEADTYPE) {//脚布局
             PeakHolder holder1 = (PeakHolder) holder;
-            holder1.initView(viewType - HEADTYPE);
+            holder1.initView(holder1.getItemView(),viewType - HEADTYPE);
         } else if (viewType >= FOOTTYPE) {//头布局
             PeakHolder holder1 = (PeakHolder) holder;
-            holder1.initView(viewType - FOOTTYPE);
+            holder1.initView(holder1.getItemView(), viewType - FOOTTYPE);
         } else {//一般布局
             position -= heads.size();
             BaseHolder holder1 = (BaseHolder) holder;

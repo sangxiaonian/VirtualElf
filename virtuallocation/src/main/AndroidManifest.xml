@@ -3,7 +3,8 @@
     package="sang.com.virtuallocation">
 
     <application>
-        <activity android:name=".ui.Loacition_PhoneAppdActivity"></activity>
+        <activity android:name=".ui.Loacition_PhoneAppdActivity" />
+        <activity android:name=".ui.Loaction_InstallAppActivity"></activity>
     </application>
 
 </manifest>
