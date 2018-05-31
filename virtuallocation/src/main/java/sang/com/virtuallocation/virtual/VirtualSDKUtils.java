@@ -86,7 +86,12 @@ public class VirtualSDKUtils {
         private boolean justEnableHidden;
     }
 
-    public void installApk(AppInfor appInfo) {
+    /**
+     * 安装App
+     * @param appInfo
+     * @return 安装失败返回null，否则返回appinfor
+     */
+    public AppInfor installApk(AppInfor appInfo) {
 
         AddResult addResult = new AddResult();
         String packageName = appInfo.getPackageName();
@@ -118,12 +123,12 @@ public class VirtualSDKUtils {
             }
             boolean success = VirtualCore.get().installPackageAsUser(nextUserId, packageName);
             if (!success) {
-                throw new IllegalStateException();
+                return null;
             }
         } else {
             InstallResult res = addVirtualApp(appInfo);
             if (!res.isSuccess) {
-                throw new IllegalStateException();
+                return null;
             }
         }
 
@@ -137,6 +142,7 @@ public class VirtualSDKUtils {
             appInfo.setFirstOpen(true);
         }
 
+        return appInfo;
 
     }
 
@@ -171,6 +177,7 @@ public class VirtualSDKUtils {
 
     /**
      * 启动APP
+     *
      * @param appInfo
      * @param callback
      */
@@ -188,9 +195,10 @@ public class VirtualSDKUtils {
 
     /**
      * 卸载APP
+     *
      * @param appInfor
      */
-    public boolean unInstall(AppInfor appInfor){
-       return VirtualCore.get().uninstallPackage(appInfor.packageName);
+    public boolean unInstall(AppInfor appInfor) {
+        return VirtualCore.get().uninstallPackage(appInfor.packageName);
     }
 }

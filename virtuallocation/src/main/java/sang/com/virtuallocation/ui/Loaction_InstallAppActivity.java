@@ -29,8 +29,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 import sang.com.commonlibrary.base.BaseActivity;
 import sang.com.commonlibrary.entity.AppInfor;
 import sang.com.commonlibrary.utils.ImageLoader;
@@ -62,13 +64,6 @@ public class Loaction_InstallAppActivity extends BaseActivity {
         initView();
         initData();
 
-        rv.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                showLoad();
-            }
-        },1000);
-
     }
 
     @Override
@@ -90,7 +85,7 @@ public class Loaction_InstallAppActivity extends BaseActivity {
 
                 return new BaseHolder<AppInfor>(context, parent, R.layout.loaction_item_install_app) {
                     @Override
-                    public void initView(View itemView, int position, final AppInfor data) {
+                    public void initView(View itemView, final int position, final AppInfor data) {
                         super.initView(itemView, position, data);
                         ImageView imgIcon = itemView.findViewById(R.id.img_icon);
                         TextView tv_title = itemView.findViewById(R.id.tv_title);
@@ -104,7 +99,7 @@ public class Loaction_InstallAppActivity extends BaseActivity {
                                 VirtualSDKUtils.getInstance().launch(data, new VirtualCore.UiCallback() {
                                     @Override
                                     public void onAppOpened(String packageName, int userId) throws RemoteException {
-                                       hideLoad();
+                                        hideLoad();
                                     }
                                 });
                             }
@@ -124,13 +119,38 @@ public class Loaction_InstallAppActivity extends BaseActivity {
                                         })
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                                boolean unInstall = VirtualSDKUtils.getInstance().unInstall(data);
-                                                if (unInstall) {
-                                                    DataSupport.deleteAll(AppInfor.class, "packageName = ?", data.getPackageName());
-                                                    getData(true);
-                                                }
+                                            public void onClick(final DialogInterface dialog, int which) {
+                                                Observable.just(data)
+                                                        .filter(new Predicate<AppInfor>() {
+                                                            @Override
+                                                            public boolean test(AppInfor appInfor) throws Exception {
+                                                                return VirtualSDKUtils.getInstance().unInstall(data);
+                                                            }
+                                                        })
+                                                        .map(new Function<AppInfor, AppInfor>() {
+                                                            @Override
+                                                            public AppInfor apply(AppInfor appInfor) throws Exception {
+                                                                DataSupport.deleteAll(AppInfor.class, "packageName = ?", data.getPackageName());
+                                                                return appInfor;
+                                                            }
+                                                        })
+                                                        .compose(RxUtils.<AppInfor>applySchedulers())
+                                                        .subscribe(new CustomObserver<AppInfor>(Loaction_InstallAppActivity.this) {
+                                                            @Override
+                                                            public void onSubscribe(Disposable d) {
+                                                                super.onSubscribe(d);
+                                                                dialog.dismiss();
+
+                                                            }
+
+                                                            @Override
+                                                            public void onNext(AppInfor aBoolean) {
+                                                                super.onNext(aBoolean);
+                                                                datas.remove(aBoolean);
+                                                                adapter.notifyItemDeleted(position);
+                                                            }
+                                                        });
+
                                             }
                                         });
                                 builder.create().show();
@@ -169,7 +189,7 @@ public class Loaction_InstallAppActivity extends BaseActivity {
                     @Override
                     public List<AppInfor> apply(Boolean s) throws Exception {
                         List<AppInfor> all = DataSupport.findAll(AppInfor.class);
-                        if (clear){
+                        if (clear) {
                             datas.clear();
                         }
                         return all;
@@ -202,41 +222,45 @@ public class Loaction_InstallAppActivity extends BaseActivity {
 
 
     public void installAppList(final List<AppInfor> list) {
-        Observable.just(list)
-                .map(new Function<List<AppInfor>, List<AppInfor>>() {
+        Observable.fromIterable(list)
+                .map(new Function<AppInfor, AppInfor>() {
 
                     @Override
-                    public List<AppInfor> apply(List<AppInfor> list) throws Exception {
-
-                        List<AppInfor> successList = new ArrayList<>();
-
-
-                        for (AppInfor appInfor : list) {
-                            VirtualSDKUtils.getInstance().installApk(appInfor);
-                            successList.add(appInfor);
-                            List<AppInfor> dbList = DataSupport.where("packageName = ?", appInfor.getPackageName()).find(AppInfor.class);
-                            if (dbList == null || dbList.isEmpty()) {
-                                appInfor.save();
-                            } else {
-                                appInfor.updateAll("packageName = ?", appInfor.getPackageName());
-                            }
-
+                    public AppInfor apply(AppInfor appInfor) throws Exception {
+                        return VirtualSDKUtils.getInstance().installApk(appInfor);
+                    }
+                })
+                .filter(new Predicate<AppInfor>() {
+                    @Override
+                    public boolean test(AppInfor appInfor) throws Exception {
+                        return appInfor != null;
+                    }
+                })
+                .map(new Function<AppInfor, AppInfor>() {
+                    @Override
+                    public AppInfor apply(AppInfor appInfor) throws Exception {
+                        List<AppInfor> dbList = DataSupport.where("packageName = ?", appInfor.getPackageName()).find(AppInfor.class);
+                        if (dbList == null || dbList.isEmpty()) {
+                            appInfor.save();
+                        } else {
+                            appInfor.updateAll("packageName = ?", appInfor.getPackageName());
                         }
-
-                        return successList;
+                        return appInfor;
                     }
                 })
 
-                .compose(RxUtils.<List<AppInfor>>applySchedulers())
+                .compose(RxUtils.<AppInfor>applySchedulers())
 
-                .subscribe(new CustomObserver<List<AppInfor>>(this) {
+                .subscribe(new CustomObserver<AppInfor>(this) {
                     @Override
-                    public void onNext(List<AppInfor> appInfors) {
+                    public void onNext(AppInfor appInfors) {
                         super.onNext(appInfors);
-                        datas.addAll(appInfors);
-                        adapter.notifyDataSetChanged();
+                        datas.add(appInfors);
+                        adapter.notifyItemAdd(datas.size());
                     }
                 });
+
+
     }
 
 

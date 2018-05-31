@@ -48,14 +48,25 @@ public class LoadDialog extends Dialog {
     @Override
     public void show() {
         super.show();
-        loading.startAnim();
     }
 
     @Override
     public void dismiss() {
-        loading.stopAnim();
         super.dismiss();
     }
 
 
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        loading.startAnim();
+
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        loading.stopAnim();
+
+        super.onDetachedFromWindow();
+    }
 }
