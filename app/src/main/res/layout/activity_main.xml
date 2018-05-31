@@ -15,5 +15,11 @@
         android:text="已安装的APP"
         android:layout_height="wrap_content" />
 
+<Button
+        android:layout_width="match_parent"
+        android:id="@+id/bt_map"
+        android:text="地图"
+        android:layout_height="wrap_content" />
+
 
 </LinearLayout>

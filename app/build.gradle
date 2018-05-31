@@ -19,6 +19,29 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+
+
+    signingConfigs {
+        release {
+            storeFile file('sagnxiaonian.jks')
+            storePassword 'sangxiaonian1.0'
+            keyAlias '桑小年'
+            keyPassword 'sangxiaonian1.0'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
 }
 
 dependencies {

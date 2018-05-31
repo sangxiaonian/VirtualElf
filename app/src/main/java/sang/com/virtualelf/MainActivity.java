@@ -7,6 +7,7 @@ import android.view.View;
 import sang.com.commonlibrary.base.BaseActivity;
 import sang.com.virtuallocation.ui.Loacition_PhoneAppdActivity;
 import sang.com.virtuallocation.ui.Loaction_InstallAppActivity;
+import sang.com.virtuallocation.ui.Loaction_MapActivity;
 
 public class MainActivity extends BaseActivity {
 
@@ -20,6 +21,12 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(mContext, Loaction_InstallAppActivity.class));
+            }
+        });
+findViewById(R.id.bt_map).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, Loaction_MapActivity.class));
             }
         });
 

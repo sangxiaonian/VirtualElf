@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="sang.com.virtuallocation.ui.Loaction_MapActivity">
+
+    <include layout="@layout/toolbar" />
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.amap.api.maps.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/ll_search_shape"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="12dp"
+                android:src="@mipmap/ic_search" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="8dp"
+                android:background="#888" />
+
+            <EditText
+                android:id="@+id/edt_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="12dp"
+                android:background="@null"
+                android:hint="搜索地点"
+                android:imeOptions="actionSearch"
+                android:padding="4dp"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/color_of_default_title_high"
+                android:textColorHint="#999999"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/dp_default_gap"
+            android:paddingLeft="@dimen/dp_default_gap"
+            android:paddingRight="@dimen/dp_default_gap"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="@drawable/ll_search_shape"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:text="@string/app_name" />
+
+            <TextView
+                android:id="@+id/bt_select"
+                android:background="@drawable/shape_bt"
+                android:textColor="#ffffff"
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_default_gap"
+                android:textSize="13sp"
+                android:text="穿越" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
