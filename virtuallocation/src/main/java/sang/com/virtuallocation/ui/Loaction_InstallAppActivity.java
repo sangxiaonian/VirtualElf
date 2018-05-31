@@ -1,5 +1,8 @@
 package sang.com.virtuallocation.ui;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -36,6 +39,7 @@ import sang.com.commonlibrary.utils.rx.RxUtils;
 import sang.com.commonlibrary.xadapter.XAdapter;
 import sang.com.commonlibrary.xadapter.holder.BaseHolder;
 import sang.com.commonlibrary.xadapter.holder.PeakHolder;
+import sang.com.minitools.utlis.JLog;
 import sang.com.minitools.utlis.ToastUtils;
 import sang.com.minitools.utlis.ViewUtils;
 import sang.com.virtuallocation.R;
@@ -57,13 +61,20 @@ public class Loaction_InstallAppActivity extends BaseActivity {
         setToolTitle("已安装应用列表");
         initView();
         initData();
+
+        rv.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showLoad();
+            }
+        },1000);
+
     }
 
     @Override
     protected void initView() {
         super.initView();
         rv = findViewById(R.id.rv);
-
     }
 
     @Override
@@ -89,14 +100,44 @@ public class Loaction_InstallAppActivity extends BaseActivity {
                         itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                showLoad();
                                 VirtualSDKUtils.getInstance().launch(data, new VirtualCore.UiCallback() {
                                     @Override
                                     public void onAppOpened(String packageName, int userId) throws RemoteException {
-                                        ToastUtils.showTextToast(mContext, "启动成功：" + packageName);
+                                       hideLoad();
                                     }
                                 });
                             }
                         });
+
+                        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                                builder.setMessage("确定要删除" + data.appName + "?");
+                                builder
+                                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                                boolean unInstall = VirtualSDKUtils.getInstance().unInstall(data);
+                                                if (unInstall) {
+                                                    DataSupport.deleteAll(AppInfor.class, "packageName = ?", data.getPackageName());
+                                                    getData(true);
+                                                }
+                                            }
+                                        });
+                                builder.create().show();
+                                return false;
+                            }
+                        });
+
 
                     }
                 };
@@ -119,11 +160,18 @@ public class Loaction_InstallAppActivity extends BaseActivity {
             }
         });
         rv.setAdapter(adapter);
-        Observable.just("")
-                .map(new Function<String, List<AppInfor>>() {
+        getData(false);
+    }
+
+    private void getData(final Boolean clear) {
+        Observable.just(clear)
+                .map(new Function<Boolean, List<AppInfor>>() {
                     @Override
-                    public List<AppInfor> apply(String s) throws Exception {
+                    public List<AppInfor> apply(Boolean s) throws Exception {
                         List<AppInfor> all = DataSupport.findAll(AppInfor.class);
+                        if (clear){
+                            datas.clear();
+                        }
                         return all;
                     }
                 })
@@ -137,8 +185,8 @@ public class Loaction_InstallAppActivity extends BaseActivity {
                     }
                 });
 
-
     }
+
 
     @Override
     public boolean useEventBus() {
@@ -148,16 +196,13 @@ public class Loaction_InstallAppActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(List<AppInfor> event) {
         if (event != null && !event.isEmpty()) {
-
             installAppList(event);
-
         }
     }
 
 
     public void installAppList(final List<AppInfor> list) {
         Observable.just(list)
-
                 .map(new Function<List<AppInfor>, List<AppInfor>>() {
 
                     @Override
@@ -184,7 +229,7 @@ public class Loaction_InstallAppActivity extends BaseActivity {
 
                 .compose(RxUtils.<List<AppInfor>>applySchedulers())
 
-                .subscribe(new CustomObserver<List<AppInfor>>(this){
+                .subscribe(new CustomObserver<List<AppInfor>>(this) {
                     @Override
                     public void onNext(List<AppInfor> appInfors) {
                         super.onNext(appInfors);

@@ -2,7 +2,6 @@ package sang.com.virtuallocation.virtual;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.RemoteException;
 
 import com.lody.virtual.client.core.InstallStrategy;
 import com.lody.virtual.client.core.VirtualCore;
@@ -75,6 +74,7 @@ public class VirtualSDKUtils {
                 virtualCore.addVisibleOutsidePackage("com.whatsapp");
                 virtualCore.addVisibleOutsidePackage("com.tencent.mm");
                 virtualCore.addVisibleOutsidePackage("com.immomo.momo");
+                virtualCore.addVisibleOutsidePackage("sang.com.minitoolsimple");
             }
         });
     }
@@ -169,6 +169,11 @@ public class VirtualSDKUtils {
     }
 
 
+    /**
+     * 启动APP
+     * @param appInfo
+     * @param callback
+     */
     public void launch(AppInfor appInfo, VirtualCore.UiCallback callback) {
         final int userId = appInfo.getUserId();
 
@@ -179,5 +184,13 @@ public class VirtualSDKUtils {
         VirtualCore.get().setUiCallback(intent, callback);
         VActivityManager.get().startActivity(intent, userId);
 
+    }
+
+    /**
+     * 卸载APP
+     * @param appInfor
+     */
+    public boolean unInstall(AppInfor appInfor){
+       return VirtualCore.get().uninstallPackage(appInfor.packageName);
     }
 }

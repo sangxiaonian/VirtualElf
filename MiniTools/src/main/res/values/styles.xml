@@ -1,0 +1,16 @@
+<resources>
+
+    <style name="loadDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 设置自定义布局的背景透明 -->
+        <item name="android:background">@android:color/transparent</item>
+        <!-- 设置window背景透明，也就是去边框 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 设置Activity背景是否变灰 -->
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+</resources>
