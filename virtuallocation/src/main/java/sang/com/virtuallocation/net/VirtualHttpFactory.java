@@ -24,6 +24,7 @@ public class VirtualHttpFactory {
      * @param lon
      */
     public static Observable<List<WifiInfo>> reWifi(String url,double lat, double lon) {
+        url=url+"/rewifi/";
         return VirtualHttpClient.getClient().getService()
                 .rewifi(url,lat, lon, 10, "bd09", "bd09")
                 .compose(RxUtils.<List<WifiInfo>>applySchedulers());
@@ -37,6 +38,7 @@ public class VirtualHttpFactory {
      * @param lon
      */
     public static Observable<List<CellInfo>> reCell(String url,double lat, double lon) {
+        url=url+"/recell/";
         return VirtualHttpClient.getClient().getService()
                 .recell(url,lat, lon, 3, -1, 1, "bd09", "bd09")
                 .compose(RxUtils.<List<CellInfo>>applySchedulers())

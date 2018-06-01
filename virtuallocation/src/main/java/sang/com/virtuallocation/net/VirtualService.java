@@ -31,7 +31,7 @@ public interface VirtualService {
      * @param coord   输入坐标类型(wgs84/gcj02/bd09)，默认wgs84
      * @return
      */
-    @GET("recell")
+    @GET
     Observable<List<CellInfo>> recell(@Url String url,
                                       @Query("lat") double lat,
                                       @Query("lon") double lon,
@@ -51,7 +51,7 @@ public interface VirtualService {
      * @param coord   输入坐标类型(wgs84/gcj02/bd09)，默认wgs84
      * @return
      */
-    @GET("rewifi")
+    @GET
     Observable<List<WifiInfo>> rewifi(@Url String url,
                                       @Query("lat") double lat,
                                       @Query("lon") double lon,

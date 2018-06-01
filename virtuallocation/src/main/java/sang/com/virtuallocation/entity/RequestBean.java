@@ -23,4 +23,59 @@ public class RequestBean {
     private String ci;
     private String output="json";
 
+    public String get__url() {
+        return __url;
+    }
+
+    public void set__url(String __url) {
+        this.__url = __url;
+    }
+
+    public String get__method() {
+        return __method;
+    }
+
+    public void set__method(String __method) {
+        this.__method = __method;
+    }
+
+    public String getMcc() {
+        return mcc;
+    }
+
+    public void setMcc(String mcc) {
+        this.mcc = mcc;
+    }
+
+    public String getMnc() {
+        return mnc;
+    }
+
+    public void setMnc(String mnc) {
+        this.mnc = mnc;
+    }
+
+    public String getLac() {
+        return lac;
+    }
+
+    public void setLac(String lac) {
+        this.lac = lac;
+    }
+
+    public String getCi() {
+        return ci;
+    }
+
+    public void setCi(String ci) {
+        this.ci = ci;
+    }
+
+    public String getOutput() {
+        return output;
+    }
+
+    public void setOutput(String output) {
+        this.output = output;
+    }
 }

@@ -17,7 +17,6 @@ import io.reactivex.Observable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 import sang.com.commonlibrary.entity.AppInfor;
-import sang.com.commonlibrary.utils.rx.BaseControl;
 import sang.com.commonlibrary.utils.rx.RxUtils;
 import sang.com.virtuallocation.config.Configs;
 import sang.com.virtuallocation.entity.CellInfo;
@@ -68,15 +67,18 @@ public class VirtualLoactionUtils {
 
     /**
      * 根据坐标信息虚拟位置
-     *  @param locationBean
-     * @param listener
+     *
+     * @param locationBean
      * @param context
      */
-    public static   Observable<ResultLoaction> changeLoaction(final LocationBean locationBean, final AppInfor appInfor, final Context context) {
+    public static Observable<ResultLoaction> changeLoaction(final LocationBean locationBean, final AppInfor appInfor, final Context context) {
         Observable<List<CellInfo>> cell = VirtualHttpFactory.reCell(locationBean.getLatitude(), locationBean.getLongitude());
         Observable<List<WifiInfo>> wifi = VirtualHttpFactory.reWifi(locationBean.getLatitude(), locationBean.getLongitude());
 
-       return Observable
+//        Observable<List<CellInfo>> cell = VirtualHttpFactory.reCell(Configs.LBS, locationBean.getLatitude(), locationBean.getLongitude());
+//        Observable<List<WifiInfo>> wifi = VirtualHttpFactory.reWifi(Configs.LBS, locationBean.getLatitude(), locationBean.getLongitude());
+
+        return Observable
                 .zip(cell, wifi, new BiFunction<List<CellInfo>, List<WifiInfo>, ResultLoaction>() {
 
                     @Override
@@ -124,7 +126,7 @@ public class VirtualLoactionUtils {
                     }
                 })
                 .compose(RxUtils.<ResultLoaction>applySchedulers())
-               ;
+                ;
 
 
     }
