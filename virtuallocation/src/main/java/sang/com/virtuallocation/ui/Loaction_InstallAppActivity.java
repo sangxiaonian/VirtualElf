@@ -101,18 +101,8 @@ public class Loaction_InstallAppActivity extends BaseActivity {
                         itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-//                                BusFactory.getBus().postSticky(data);
-//                                startActivity(new Intent(mContext,Location_AppDetailActivity.class));
-
-                                if (data != null) {
-                                    showLoad();
-                                    VirtualSDKUtils.getInstance().launch(data, new VirtualCore.UiCallback() {
-                                        @Override
-                                        public void onAppOpened(String packageName, int userId) throws RemoteException {
-                                            hideLoad();
-                                        }
-                                    });
-                                }
+                                BusFactory.getBus().postSticky(data);
+                                startActivity(new Intent(mContext,Location_AppDetailActivity.class));
 
 
                             }
