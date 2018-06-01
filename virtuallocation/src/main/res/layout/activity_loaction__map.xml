@@ -42,7 +42,7 @@
                 android:layout_marginLeft="8dp"
                 android:background="#888" />
 
-            <EditText
+            <TextView
                 android:id="@+id/edt_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,9 +53,8 @@
                 android:imeOptions="actionSearch"
                 android:padding="4dp"
                 android:singleLine="true"
-                android:text=""
-                android:textColor="@color/color_of_default_title_high"
-                android:textColorHint="#999999"
+                android:text="搜索地点"
+                android:textColor="@color/color_of_default_title_low"
                 android:textSize="12sp" />
 
         </LinearLayout>

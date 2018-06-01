@@ -12,5 +12,7 @@
     <color name="color_of_default_item_bg">#ffffff</color>
     <!--默认标题高亮颜色-->
     <color name="color_of_default_title_high">#333333</color>
+    <color name="color_of_default_title_low">#999999</color>
+    <color name="color_of_30a4f7">#30a4f7</color>
 
 </resources>

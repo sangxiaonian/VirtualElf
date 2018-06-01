@@ -1,10 +1,10 @@
 package sang.com.virtualelf;
 
-import android.app.Application;
 import android.content.Context;
 
 import org.litepal.LitePalApplication;
 
+import sang.com.minitools.MiniTools;
 import sang.com.virtuallocation.virtual.VirtualSDKUtils;
 
 /**
@@ -21,9 +21,8 @@ public class APPApplication extends LitePalApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
         VirtualSDKUtils.getInstance().initVirtualSDK();
-
+        MiniTools.init(this, BuildConfig.DEBUG);
     }
 
 

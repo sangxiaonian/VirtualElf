@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_of_default_bg"
+    android:layout_height="match_parent"
+    tools:context="sang.com.virtuallocation.ui.Location_SearchActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="45dp">
+        <LinearLayout
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:clickable="true"
+            android:paddingLeft="@dimen/dp_default_gap"
+            android:paddingRight="@dimen/dp_default_gap">
+
+            <ImageView
+                android:clickable="false"
+                android:id="@+id/img_left"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                app:srcCompat="@drawable/ic_back_333333" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="36dp"
+            android:layout_marginRight="@dimen/dp_default_gap"
+            android:background="@drawable/ll_search_shape"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="12dp"
+                android:src="@mipmap/ic_search" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="8dp"
+                android:background="#888" />
+
+            <EditText
+                android:id="@+id/edt_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="12dp"
+                android:background="@null"
+                android:hint="搜索地点"
+                android:imeOptions="actionSearch"
+                android:padding="4dp"
+                android:singleLine="true"
+                android:textColor="@color/color_of_default_title_high"
+                android:textColorHint="#999999"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/bt_search"
+            android:gravity="center"
+            android:background="@drawable/shape_bt"
+            android:textColor="#ffffff"
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:textSize="14sp"
+            android:layout_marginRight="@dimen/dp_default_gap"
+            android:text="搜 索" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="#999"
+        android:layout_height="0.5dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/rv"
+        android:layout_height="match_parent"/>
+
+
+
+
+</LinearLayout>

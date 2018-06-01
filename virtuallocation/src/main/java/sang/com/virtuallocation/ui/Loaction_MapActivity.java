@@ -1,12 +1,15 @@
 package sang.com.virtuallocation.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
+import android.support.annotation.IntDef;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EdgeEffect;
@@ -32,76 +35,94 @@ import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import sang.com.commonlibrary.base.BaseActivity;
+import sang.com.commonlibrary.entity.AppInfor;
+import sang.com.commonlibrary.utils.event.BusFactory;
 import sang.com.minitools.utlis.JLog;
+import sang.com.minitools.utlis.ToastUtils;
 import sang.com.virtuallocation.R;
 import sang.com.virtuallocation.map.MapUtils;
 
-public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoactionChangeListener, GeocodeSearch.OnGeocodeSearchListener, PoiSearch.OnPoiSearchListener {
+/**
+ * 地图界面
+ */
+public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoactionChangeListener, GeocodeSearch.OnGeocodeSearchListener {
 
     private MapView mMapView;
     private GeocodeSearch geocodeSearch;
     TextView tvLoaction;
-    private EditText edtSearch;
+    private TextView edtSearch;
+    private TextView btSelect;
+    private LatLng latLng;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loaction__map);
         setToolTitle("选择位置");
+
+        initView();
+        initData();
+        initListener();
+        mMapView.onCreate(savedInstanceState);
+        MapUtils.getInstance().initLoaction(this, mMapView).setLoactionLisetner(this);
+
+
+    }
+
+
+    @Override
+    protected void initView() {
+        super.initView();
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.map);
 
         tvLoaction = findViewById(R.id.tv_location);
         edtSearch = findViewById(R.id.edt_search);
+        btSelect = findViewById(R.id.bt_select);
 
-        edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
+//初始化地图控制器对象
+        geocodeSearch = new GeocodeSearch(this);
+        geocodeSearch.setOnGeocodeSearchListener(this);
+    }
+
+    @Override
+    protected void initListener() {
+        super.initListener();
+        btSelect.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    String trim = edtSearch.getText().toString().trim();
-                    if (!TextUtils.isEmpty(trim)) {
-                        startSearch(trim);
-                    }
-                    // 当按了搜索之后关闭软键盘
-                    ((InputMethodManager) getSystemService(
-                            Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
-                            getCurrentFocus().getWindowToken(),
-                            InputMethodManager.HIDE_NOT_ALWAYS);
-                    return true;
+            public void onClick(View v) {
+                if (latLng != null) {
+                    BusFactory.getBus().post(latLng);
+                    finish();
+                }else {
+                    ToastUtils.showTextToast("坐标转换中，请稍后");
                 }
-                return false;
             }
         });
 
 
-        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
-        mMapView.onCreate(savedInstanceState);
-//初始化地图控制器对象
-        geocodeSearch = new GeocodeSearch(this);
-        geocodeSearch.setOnGeocodeSearchListener(this);
-        MapUtils.getInstance().initLoaction(this, mMapView).setLoactionLisetner(this);
+        edtSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, Location_SearchActivity.class));
+            }
+        });
+
 
     }
-
-    private void startSearch(String trim) {
-        int currentPage = 0;
-// 第一个参数表示搜索字符串，第二个参数表示POI搜索类型，二选其一
-// 第三个参数表示POI搜索区域的编码，必设
-        PoiSearch.Query query = new PoiSearch.Query(trim, "", "");
-// 设置每页最多返回多少条poiitem
-        query.setPageSize(1);
-// 设置查第一页
-        query.setPageNum(currentPage);
-        PoiSearch poiSearch = new PoiSearch(this, query);
-//设置搜索完成后的回调
-        poiSearch.setOnPoiSearchListener(this);
-//进行异步查询
-        poiSearch.searchPOIAsyn();
-    }
-
 
     @Override
     protected void onDestroy() {
@@ -145,17 +166,20 @@ public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoa
         LatLonPoint latLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);
         RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 500f, GeocodeSearch.AMAP);
         //异步查询
+        showLoad();
         geocodeSearch.getFromLocationAsyn(query);
+        this.latLng = latLng;
     }
 
 
     @Override
     public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+        hideLoad();
         RegeocodeAddress regeocodeAddress = regeocodeResult.getRegeocodeAddress();
         String formatAddress = regeocodeAddress.getFormatAddress();
-        String simpleAddress = formatAddress.substring(9);
+        tvLoaction.setText("地址：\n" + formatAddress);
 
-        tvLoaction.setText("查询经纬度对应详细地址：\n" + simpleAddress);
+
     }
 
     @Override
@@ -164,27 +188,26 @@ public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoa
     }
 
     @Override
-    public void onPoiSearched(PoiResult result, int i) {
-        if (result != null && result.getQuery() != null) {
-            List<PoiItem> poiItems = result.getPois();
-            if (poiItems != null && poiItems.size() > 0) {
-                // 清理之前的图标，将查询结果显示在地图上
-                AMap aMap = mMapView.getMap();
+    public boolean useEventBus() {
+        return true;
+    }
 
-                LatLonPoint cameraPosition = poiItems.get(0).getLatLonPoint();
-                LatLng target =new LatLng( cameraPosition .getLatitude(),cameraPosition.getLongitude());
-                List<Marker> markers = aMap.getMapScreenMarkers();
-                if (markers.size()>0){
-                    Marker marker = markers.get(0);
-                    marker.setPosition(target);
-                }
-                aMap.setLoadOfflineData(true);
-                aMap.moveCamera(CameraUpdateFactory.newLatLng(target));
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(PoiItem event) {
+        if (event != null) {
+            AMap aMap = mMapView.getMap();
+            LatLonPoint cameraPosition = event.getLatLonPoint();
+            LatLng target = new LatLng(cameraPosition.getLatitude(), cameraPosition.getLongitude());
+            List<Marker> markers = aMap.getMapScreenMarkers();
+            if (markers.size() > 0) {
+                Marker marker = markers.get(0);
+                marker.setPosition(target);
             }
+            aMap.setLoadOfflineData(true);
+            aMap.moveCamera(CameraUpdateFactory.newLatLng(target));
+
+            latLng = target;
         }
     }
 
-    @Override
-    public void onPoiItemSearched(PoiItem poiItem, int i) {
-    }
 }
