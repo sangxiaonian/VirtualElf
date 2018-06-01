@@ -36,6 +36,7 @@ import io.reactivex.functions.Predicate;
 import sang.com.commonlibrary.base.BaseActivity;
 import sang.com.commonlibrary.entity.AppInfor;
 import sang.com.commonlibrary.utils.ImageLoader;
+import sang.com.commonlibrary.utils.event.BusFactory;
 import sang.com.commonlibrary.utils.rx.CustomObserver;
 import sang.com.commonlibrary.utils.rx.RxUtils;
 import sang.com.commonlibrary.xadapter.XAdapter;
@@ -64,6 +65,12 @@ public class Loaction_InstallAppActivity extends BaseActivity {
         initView();
         initData();
 
+        rv.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showLoad();
+            }
+        },1000);
     }
 
     @Override
@@ -91,19 +98,26 @@ public class Loaction_InstallAppActivity extends BaseActivity {
                         TextView tv_title = itemView.findViewById(R.id.tv_title);
                         ViewUtils.setText(tv_title, data.appName);
                         ImageLoader.loadImage(mContext, data.getAppIcon(), imgIcon);
-
                         itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                showLoad();
-                                VirtualSDKUtils.getInstance().launch(data, new VirtualCore.UiCallback() {
-                                    @Override
-                                    public void onAppOpened(String packageName, int userId) throws RemoteException {
-                                        hideLoad();
-                                    }
-                                });
+//                                BusFactory.getBus().postSticky(data);
+//                                startActivity(new Intent(mContext,Location_AppDetailActivity.class));
+
+                                if (data != null) {
+                                    showLoad();
+                                    VirtualSDKUtils.getInstance().launch(data, new VirtualCore.UiCallback() {
+                                        @Override
+                                        public void onAppOpened(String packageName, int userId) throws RemoteException {
+                                            hideLoad();
+                                        }
+                                    });
+                                }
+
+
                             }
                         });
+
 
                         itemView.setOnLongClickListener(new View.OnLongClickListener() {
                             @Override

@@ -23,7 +23,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(new Intent(mContext, Loaction_InstallAppActivity.class));
             }
         });
-findViewById(R.id.bt_map).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.bt_map).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(mContext, Loaction_MapActivity.class));

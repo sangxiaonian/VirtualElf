@@ -47,13 +47,15 @@ public class BaseActivity extends AppCompatActivity implements BaseControl.TaskL
         super.onCreate(savedInstanceState);
         mContext = this;
         initLoading();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         if (useEventBus()) {
             BusFactory.getBus().register(this);
         }
-
-
     }
-
 
     protected void setLeftOnClickListener(View.OnClickListener leftOnClickListener) {
         if (left != null) {

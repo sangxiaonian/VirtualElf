@@ -14,5 +14,8 @@
     <color name="color_of_default_title_high">#333333</color>
     <color name="color_of_default_title_low">#999999</color>
     <color name="color_of_30a4f7">#30a4f7</color>
+    <color name="color_of_white">#ffffff</color>
+    <color name="color_of_line">#cecece</color>
+    <color name="yellow_text">#ED9D2C</color>
 
 </resources>

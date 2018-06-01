@@ -12,6 +12,8 @@ import sang.com.minitools.utlis.ToastUtils;
 
 public class MiniTools {
 
+    public static Context context;
+
     public static void init(Context context,boolean isDebug){
         ConvertUtils.init(context);
         ToastUtils.init(context);

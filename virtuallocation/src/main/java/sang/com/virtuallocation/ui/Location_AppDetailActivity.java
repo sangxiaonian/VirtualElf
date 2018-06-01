@@ -1,18 +1,141 @@
 package sang.com.virtuallocation.ui;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.RemoteException;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.amap.api.maps.model.LatLng;
+import com.lody.virtual.client.core.VirtualCore;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import sang.com.commonlibrary.base.BaseActivity;
+import sang.com.commonlibrary.entity.AppInfor;
+import sang.com.commonlibrary.utils.ImageLoader;
+import sang.com.commonlibrary.utils.event.BusFactory;
+import sang.com.minitools.utlis.ToastUtils;
+import sang.com.minitools.utlis.ViewUtils;
 import sang.com.virtuallocation.R;
+import sang.com.virtuallocation.entity.LocationBean;
+import sang.com.virtuallocation.virtual.VirtualSDKUtils;
 
 /**
  * App详情页面
  */
-public class Location_AppDetailActivity extends AppCompatActivity {
+public class Location_AppDetailActivity extends BaseActivity implements View.OnClickListener {
+
+
+    ImageView ivIcon;
+    TextView tvName;
+    TextView tvTip;
+    LinearLayout llItem;
+    TextView tvAddress;
+    CheckBox cbCollect;
+    RelativeLayout rlPosition;
+    private AppInfor appInfor;
+    private LocationBean locationBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location__app_detail);
+        setToolTitle("应用详情");
+        initView();
+        initData();
+        initListener();
+    }
+
+
+    @Override
+    protected void initView() {
+        super.initView();
+        ivIcon = findViewById(R.id.iv_icon);
+        tvName = findViewById(R.id.tv_name);
+        tvTip = findViewById(R.id.tv_tip);
+        llItem = findViewById(R.id.ll_item);
+        tvAddress = findViewById(R.id.tv_address);
+        cbCollect = findViewById(R.id.cb_collect);
+        rlPosition = findViewById(R.id.rl_position);
+    }
+
+    @Override
+    protected void initListener() {
+        super.initListener();
+        llItem.setOnClickListener(this);
+        rlPosition.setOnClickListener(this);
+        setRightText("我的收藏");
+        setRightOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.showTextToast("收藏地址列表");
+                showLoad();
+            }
+        });
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(AppInfor event) {
+        this.appInfor = event;
+        if (event != null) {
+            ViewUtils.setText(tvName, event.getAppName());
+            ImageLoader.loadImage(mContext, event.getAppIcon(), ivIcon);
+        }
+
+        BusFactory.getBus().removeStickyEvent(event);
+    }
+
+    /**
+     * 坐标位置
+     * @param event
+     */
+    @Subscribe( threadMode = ThreadMode.MAIN)
+    public void onLocationEvent(LocationBean event) {
+        if (event != null) {
+            this.locationBean=event;
+            LatLng target = new LatLng(event.getLatitude(), event.getLongitude());
+        }
+    }
+
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.ll_item) {
+            if (appInfor != null) {
+                showLoad();
+                VirtualSDKUtils.getInstance().launch(appInfor, new VirtualCore.UiCallback() {
+                    @Override
+                    public void onAppOpened(String packageName, int userId) throws RemoteException {
+                        hideLoad();
+                    }
+                });
+            }
+
+        } else if (i == R.id.rl_position) {
+
+            startActivity(new Intent(mContext, Loaction_MapActivity.class));
+
+        }
     }
 }

@@ -46,6 +46,7 @@ import sang.com.commonlibrary.utils.event.BusFactory;
 import sang.com.minitools.utlis.JLog;
 import sang.com.minitools.utlis.ToastUtils;
 import sang.com.virtuallocation.R;
+import sang.com.virtuallocation.entity.LocationBean;
 import sang.com.virtuallocation.map.MapUtils;
 
 /**
@@ -58,7 +59,7 @@ public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoa
     TextView tvLoaction;
     private TextView edtSearch;
     private TextView btSelect;
-    private LatLng latLng;
+    private LocationBean locationBean;
 
 
     @Override
@@ -104,8 +105,8 @@ public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoa
         btSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (latLng != null) {
-                    BusFactory.getBus().post(latLng);
+                if (locationBean != null) {
+                    BusFactory.getBus().post(locationBean);
                     finish();
                 }else {
                     ToastUtils.showTextToast("坐标转换中，请稍后");
@@ -168,7 +169,7 @@ public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoa
         //异步查询
         showLoad();
         geocodeSearch.getFromLocationAsyn(query);
-        this.latLng = latLng;
+
     }
 
 
@@ -178,6 +179,13 @@ public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoa
         RegeocodeAddress regeocodeAddress = regeocodeResult.getRegeocodeAddress();
         String formatAddress = regeocodeAddress.getFormatAddress();
         tvLoaction.setText("地址：\n" + formatAddress);
+        LatLonPoint point = regeocodeResult.getRegeocodeQuery().getPoint();
+        if (locationBean==null){
+            locationBean=new LocationBean();
+        }
+        locationBean.setLatitude(point.getLatitude());
+        locationBean.setLongitude(point.getLongitude());
+        locationBean.setName(formatAddress);
 
 
     }
@@ -206,7 +214,14 @@ public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoa
             aMap.setLoadOfflineData(true);
             aMap.moveCamera(CameraUpdateFactory.newLatLng(target));
 
-            latLng = target;
+            if (locationBean==null){
+                locationBean=new LocationBean();
+            }
+            locationBean.setLatitude(cameraPosition.getLatitude());
+            locationBean.setLongitude(cameraPosition.getLongitude());
+            locationBean.setName(event.getTitle());
+
+
         }
     }
 

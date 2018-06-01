@@ -5,11 +5,149 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_of_default_bg"
+    android:orientation="vertical"
     tools:context="sang.com.virtuallocation.ui.Location_AppDetailActivity">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_of_white">
+
+        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_margin="40dp"
+            app:cardBackgroundColor="@color/color_of_default_bg"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="4dp"
+            app:cardPreventCornerOverlap="false"
+            app:contentPadding="0dp">
+
+            <LinearLayout
+                android:id="@+id/ll_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/item_click_selector"
+
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="35dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_icon"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18dp"
+                        android:layout_weight="1"
+                        android:text="App"
+                        android:textColor="@color/color_of_default_title_high"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="25dp"
+                    android:text="点击这里应用图标进入，虚拟操作才能生效哦！"
+                    android:textColor="@color/yellow_text"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
 
 
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/color_of_line" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/color_of_line" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/color_of_line" />
+
+    <RelativeLayout
+        android:id="@+id/rl_position"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_click_selector"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="位置模拟"
+                android:textColor="@color/color_of_default_title_high"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="未模拟位置"
+                android:textColor="@color/color_of_default_title_low"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+
+        <!-- <ImageView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentRight="true"
+             android:layout_centerVertical="true"
+             android:src="@mipmap/ic_black_arrow"
+             android:layout_marginRight="10dp"
+             />-->
+
+        <CheckBox
+            android:id="@+id/cb_collect"
+            android:layout_width="52dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp" />
+    </RelativeLayout>
 
 
 </LinearLayout>

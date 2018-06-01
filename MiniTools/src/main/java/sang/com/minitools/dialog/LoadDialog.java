@@ -2,6 +2,7 @@ package sang.com.minitools.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import sang.com.minitools.widget.OWLoadingView;
 
 public class LoadDialog extends Dialog {
     OWLoadingView loading;
+
     public LoadDialog(@NonNull Context context) {
         this(context, R.style.loadDialog);
     }
@@ -38,35 +40,40 @@ public class LoadDialog extends Dialog {
         getWindow().setGravity(Gravity.CENTER);
         setCancelable(false);
         setCanceledOnTouchOutside(false);
+
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
+        loading.post(new Runnable() {
+            @Override
+            public void run() {
+                loading. startAnim();
+            }
+        });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        loading.stopAnim();
     }
 
     @Override
     public void show() {
         super.show();
-    }
-
-    @Override
-    public void dismiss() {
-        super.dismiss();
-    }
-
-
-    @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
         loading.startAnim();
-
     }
 
     @Override
-    public void onDetachedFromWindow() {
-        loading.stopAnim();
-
-        super.onDetachedFromWindow();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        loading.startAnim();
     }
+
 }
+
+
+
+
