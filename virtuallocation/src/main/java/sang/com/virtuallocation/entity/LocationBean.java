@@ -9,7 +9,16 @@ public class LocationBean {
     public String name;
     public double latitude;
     private double longitude;
+    private String cityName;
 
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
 
     public double getLongitude() {
         return longitude;

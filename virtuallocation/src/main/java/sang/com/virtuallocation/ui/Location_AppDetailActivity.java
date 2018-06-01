@@ -24,10 +24,12 @@ import sang.com.commonlibrary.base.BaseActivity;
 import sang.com.commonlibrary.entity.AppInfor;
 import sang.com.commonlibrary.utils.ImageLoader;
 import sang.com.commonlibrary.utils.event.BusFactory;
+import sang.com.commonlibrary.utils.rx.CustomObserver;
 import sang.com.minitools.utlis.ToastUtils;
 import sang.com.minitools.utlis.ViewUtils;
 import sang.com.virtuallocation.R;
 import sang.com.virtuallocation.entity.LocationBean;
+import sang.com.virtuallocation.util.VirtualLoactionUtils;
 import sang.com.virtuallocation.virtual.VirtualSDKUtils;
 
 /**
@@ -106,9 +108,18 @@ public class Location_AppDetailActivity extends BaseActivity implements View.OnC
      */
     @Subscribe( threadMode = ThreadMode.MAIN)
     public void onLocationEvent(LocationBean event) {
-        if (event != null) {
+        if (event != null&&appInfor!=null) {
             this.locationBean=event;
-            LatLng target = new LatLng(event.getLatitude(), event.getLongitude());
+            VirtualLoactionUtils
+                    .changeLoaction(locationBean,appInfor,this)
+                    .subscribe(new CustomObserver<VirtualLoactionUtils.ResultLoaction>(this){
+                        @Override
+                        public void onNext(VirtualLoactionUtils.ResultLoaction resultLoaction) {
+                            super.onNext(resultLoaction);
+                            ToastUtils.showTextToast("GPS更改成功");
+                        }
+                    });
+            ;
         }
     }
 

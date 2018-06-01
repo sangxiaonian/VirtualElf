@@ -186,6 +186,7 @@ public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoa
         locationBean.setLatitude(point.getLatitude());
         locationBean.setLongitude(point.getLongitude());
         locationBean.setName(formatAddress);
+        locationBean.setCityName(regeocodeAddress.getCity());
 
 
     }
@@ -220,6 +221,7 @@ public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoa
             locationBean.setLatitude(cameraPosition.getLatitude());
             locationBean.setLongitude(cameraPosition.getLongitude());
             locationBean.setName(event.getTitle());
+            locationBean.setCityName(event.getCityName());
 
 
         }

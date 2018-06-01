@@ -14,9 +14,10 @@ public class MiniTools {
 
     public static Context context;
 
-    public static void init(Context context,boolean isDebug){
-        ConvertUtils.init(context);
-        ToastUtils.init(context);
+    public static void init(Context cnt,boolean isDebug){
+        context=cnt;
+        ConvertUtils.init(cnt);
+        ToastUtils.init(cnt);
     }
 
 }

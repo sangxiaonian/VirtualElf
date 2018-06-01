@@ -148,6 +148,7 @@ public class BaseActivity extends AppCompatActivity implements BaseControl.TaskL
     @Override
     public void taskFaile(String errorCode, String errorMessage) {
         hideLoad();
+        ToastUtils.showTextToast(errorMessage);
     }
 
     /**
