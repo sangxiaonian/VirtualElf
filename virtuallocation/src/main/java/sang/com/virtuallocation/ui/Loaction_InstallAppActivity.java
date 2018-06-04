@@ -67,13 +67,6 @@ public class Loaction_InstallAppActivity extends BaseActivity {
         setToolTitle("已安装应用列表");
         initView();
         initData();
-
-        rv.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                showLoad();
-            }
-        }, 1000);
     }
 
     @Override
