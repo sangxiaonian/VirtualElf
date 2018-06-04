@@ -212,6 +212,9 @@ public class Loaction_InstallAppActivity extends BaseActivity {
                     @Override
                     public void onNext(List<AppInfor> appInfors) {
                         super.onNext(appInfors);
+                        for (AppInfor appInfor : appInfors) {
+                            JLog.i(appInfor.toString());
+                        }
                         datas.addAll(appInfors);
                         adapter.notifyDataSetChanged();
                     }

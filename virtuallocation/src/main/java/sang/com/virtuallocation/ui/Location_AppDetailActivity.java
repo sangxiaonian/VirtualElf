@@ -6,6 +6,7 @@ import android.os.RemoteException;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,9 +29,11 @@ import sang.com.commonlibrary.entity.AppInfor;
 import sang.com.commonlibrary.utils.ImageLoader;
 import sang.com.commonlibrary.utils.event.BusFactory;
 import sang.com.commonlibrary.utils.rx.CustomObserver;
+import sang.com.minitools.utlis.JLog;
 import sang.com.minitools.utlis.ToastUtils;
 import sang.com.minitools.utlis.ViewUtils;
 import sang.com.virtuallocation.R;
+import sang.com.virtuallocation.config.Configs;
 import sang.com.virtuallocation.entity.LocationBean;
 import sang.com.virtuallocation.util.VirtualLoactionUtils;
 import sang.com.virtuallocation.virtual.VirtualSDKUtils;
@@ -38,7 +41,7 @@ import sang.com.virtuallocation.virtual.VirtualSDKUtils;
 /**
  * App详情页面
  */
-public class Location_AppDetailActivity extends BaseActivity implements View.OnClickListener {
+public class Location_AppDetailActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
 
     ImageView ivIcon;
@@ -86,7 +89,10 @@ public class Location_AppDetailActivity extends BaseActivity implements View.OnC
                 ToastUtils.showTextToast("收藏地址列表");
                 showLoad();
             }
+
         });
+
+
     }
 
     @Override
@@ -98,6 +104,10 @@ public class Location_AppDetailActivity extends BaseActivity implements View.OnC
     public void onMessageEvent(AppInfor event) {
         this.appInfor = event;
         if (event != null) {
+            int mode = VirtualLocationManager.get().getMode(appInfor.getUserId(), appInfor.getPackageName());
+            cbCollect.setOnCheckedChangeListener(this);
+            cbCollect.setChecked( mode != 0);
+
             ViewUtils.setText(tvName, event.getAppName());
             ImageLoader.loadImage(mContext, event.getAppIcon(), ivIcon);
         }
@@ -107,24 +117,22 @@ public class Location_AppDetailActivity extends BaseActivity implements View.OnC
 
     /**
      * 坐标位置
+     *
      * @param event
      */
-    @Subscribe( threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLocationEvent(final LocationBean event) {
-        if (event != null&&appInfor!=null) {
-            this.locationBean=event;
-//            int mode = isChecked ? VirtualLocationManager.MODE_USE_SELF : VirtualLocationManager.MODE_CLOSE;
-            int mode = true ? VirtualLocationManager.MODE_USE_SELF : VirtualLocationManager.MODE_CLOSE;
-
-            VirtualLocationManager.get().setMode(0, appInfor.getPackageName(), mode);
+        if (event != null && appInfor != null) {
+            this.locationBean = event;
+            JLog.i("");
             VirtualLoactionUtils
-                    .changeLoaction(locationBean,appInfor,this)
-                    .subscribe(new CustomObserver<VirtualLoactionUtils.ResultLoaction>(this){
+                    .changeLoaction(locationBean, appInfor, this)
+                    .subscribe(new CustomObserver<VirtualLoactionUtils.ResultLoaction>(this) {
                         @Override
                         public void onNext(VirtualLoactionUtils.ResultLoaction resultLoaction) {
                             super.onNext(resultLoaction);
                             ToastUtils.showTextToast("GPS更改成功");
-                            ViewUtils.setText(tvAddress,event.getName());
+                            ViewUtils.setText(tvAddress, event.getName());
                         }
                     });
             ;
@@ -156,5 +164,17 @@ public class Location_AppDetailActivity extends BaseActivity implements View.OnC
             startActivity(new Intent(mContext, Loaction_MapActivity.class));
 
         }
+    }
+
+    /**
+     * Called when the checked state of a compound button has changed.
+     *
+     * @param buttonView The compound button view whose state has changed.
+     * @param isChecked  The new checked state of buttonView.
+     */
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        int mode = isChecked ? VirtualLocationManager.MODE_USE_SELF : VirtualLocationManager.MODE_CLOSE;
+        VirtualLocationManager.get().setMode(appInfor==null? Configs.appUserId:appInfor.getUserId(), appInfor.getPackageName(), mode);
     }
 }

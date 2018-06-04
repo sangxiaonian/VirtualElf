@@ -141,4 +141,18 @@ public class AppInfor extends DataSupport {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+
+    @Override
+    public String toString() {
+        return "AppInfor{" +
+                "packageName='" + packageName + '\'' +
+                ", appName='" + appName + '\'' +
+                ", apkFilePath='" + apkFilePath + '\'' +
+                ", versionCode=" + versionCode +
+                ", versionName='" + versionName + '\'' +
+                ", isFirstOpen=" + isFirstOpen +
+                ", userId=" + userId +
+                '}';
+    }
 }
