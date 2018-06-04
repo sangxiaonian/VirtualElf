@@ -74,7 +74,7 @@ public abstract class XAdapter<T> extends RecyclerView.Adapter {
     public void notifyItemAdd(int position) {
         position += heads.size();
         notifyItemInserted(position);
-        notifyItemRangeChanged(position, getItemCount() - position);
+        notifyItemRangeChanged(position-1, getItemCount() - position);
     }
 
     public void notifyItemDeleted(int position) {

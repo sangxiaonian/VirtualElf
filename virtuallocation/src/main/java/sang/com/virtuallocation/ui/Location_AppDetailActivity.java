@@ -110,7 +110,7 @@ public class Location_AppDetailActivity extends BaseActivity implements View.OnC
      * @param event
      */
     @Subscribe( threadMode = ThreadMode.MAIN)
-    public void onLocationEvent(LocationBean event) {
+    public void onLocationEvent(final LocationBean event) {
         if (event != null&&appInfor!=null) {
             this.locationBean=event;
 //            int mode = isChecked ? VirtualLocationManager.MODE_USE_SELF : VirtualLocationManager.MODE_CLOSE;
@@ -124,6 +124,7 @@ public class Location_AppDetailActivity extends BaseActivity implements View.OnC
                         public void onNext(VirtualLoactionUtils.ResultLoaction resultLoaction) {
                             super.onNext(resultLoaction);
                             ToastUtils.showTextToast("GPS更改成功");
+                            ViewUtils.setText(tvAddress,event.getName());
                         }
                     });
             ;
