@@ -99,6 +99,7 @@ public class AppInfor extends DataSupport {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
 
         this.appIcon = os.toByteArray();
+
     }
 
 
