@@ -111,16 +111,16 @@ public class VirtualLoactionUtils {
                         }
 
                         if (vCellList.size() > 0) {
-                            VirtualLocationManager.get().setCell(Configs.appUserId,
+                            VirtualLocationManager.get().setCell(appInfor.getUserId(),
                                     appInfor.getPackageName(), vCellList.get(0));
-                            VirtualLocationManager.get().setAllCell(Configs.appUserId,
+                            VirtualLocationManager.get().setAllCell(appInfor.getUserId(),
                                     appInfor.getPackageName(), vCellList);
                         }
 
-                        VirtualLocationManager.get().setAllWifi(Configs.appUserId,
+                        VirtualLocationManager.get().setAllWifi(appInfor.getUserId(),
                                 packageName, vWifiList);
 
-                        VirtualLocationManager.get().setLocation(Configs.appUserId,
+                        VirtualLocationManager.get().setLocation(appInfor.getUserId(),
                                 packageName, transferLocation(data.getLocationInfo(), context));
                         return data;
                     }
