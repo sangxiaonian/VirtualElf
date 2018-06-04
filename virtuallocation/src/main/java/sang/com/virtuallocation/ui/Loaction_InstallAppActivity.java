@@ -49,6 +49,7 @@ import sang.com.minitools.utlis.JLog;
 import sang.com.minitools.utlis.ToastUtils;
 import sang.com.minitools.utlis.ViewUtils;
 import sang.com.virtuallocation.R;
+import sang.com.virtuallocation.virtual.VirtualInstallUtils;
 import sang.com.virtuallocation.virtual.VirtualSDKUtils;
 
 /**
@@ -103,15 +104,15 @@ public class Loaction_InstallAppActivity extends BaseActivity {
 
 
                                 Pair<View, String> imgPair = new Pair<>((View) imgIcon, getString(R.string.location_share_img_name));
-                                Pair<View, String> titlePair = new Pair<>((View)tv_title, getString(R.string.location_share_bt_name));
+                                Pair<View, String> titlePair = new Pair<>((View) tv_title, getString(R.string.location_share_bt_name));
 
-                                ActivityOptions more = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext,imgPair, titlePair);
+                                ActivityOptions more = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, imgPair, titlePair);
 
                                 ActivityOptions single = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext,
-                                        imgIcon, getString(R.string.location_share_img_name)) ;
+                                        imgIcon, getString(R.string.location_share_img_name));
                                 startActivity(
-                                        intent,more.toBundle()
-                                      );
+                                        intent, more.toBundle()
+                                );
 
                             }
                         });
@@ -230,52 +231,63 @@ public class Loaction_InstallAppActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(List<AppInfor> event) {
-        if (event != null && !event.isEmpty()) {
+        JLog.i("获取到数据了"+event.size());
+        if ( !event.isEmpty()) {
             installAppList(event);
         }
     }
 
 
     public void installAppList(final List<AppInfor> list) {
-        Observable.fromIterable(list)
-                .map(new Function<AppInfor, AppInfor>() {
+//        Observable.fromIterable(list)
+//                .map(new Function<AppInfor, AppInfor>() {
+//
+//                    @Override
+//                    public AppInfor apply(AppInfor appInfor) throws Exception {
+//                        return VirtualSDKUtils.getInstance().installApk(appInfor);
+//                    }
+//                })
+//                .filter(new Predicate<AppInfor>() {
+//                    @Override
+//                    public boolean test(AppInfor appInfor) throws Exception {
+//                        return appInfor != null;
+//                    }
+//                })
+//                .map(new Function<AppInfor, AppInfor>() {
+//                    @Override
+//                    public AppInfor apply(AppInfor appInfor) throws Exception {
+//                        List<AppInfor> dbList = DataSupport.where("packageName = ?", appInfor.getPackageName()).find(AppInfor.class);
+//                        if (dbList == null || dbList.isEmpty()) {
+//                            appInfor.save();
+//                        } else {
+//                            appInfor.updateAll("packageName = ?", appInfor.getPackageName());
+//                        }
+//                        return appInfor;
+//                    }
+//                })
+//
+//                .compose(RxUtils.<AppInfor>applySchedulers())
+//
+//                .subscribe(new CustomObserver<AppInfor>(this) {
+//                    @Override
+//                    public void onNext(AppInfor appInfors) {
+//                        super.onNext(appInfors);
+//                        datas.add(appInfors);
+//                        adapter.notifyItemAdd(datas.size());
+//                    }
+//                });
 
+        VirtualInstallUtils
+                .getInstance()
+                .installAppList(list)
+                .subscribe(new CustomObserver<List<AppInfor>>(this) {
                     @Override
-                    public AppInfor apply(AppInfor appInfor) throws Exception {
-                        return VirtualSDKUtils.getInstance().installApk(appInfor);
-                    }
-                })
-                .filter(new Predicate<AppInfor>() {
-                    @Override
-                    public boolean test(AppInfor appInfor) throws Exception {
-                        return appInfor != null;
-                    }
-                })
-                .map(new Function<AppInfor, AppInfor>() {
-                    @Override
-                    public AppInfor apply(AppInfor appInfor) throws Exception {
-                        List<AppInfor> dbList = DataSupport.where("packageName = ?", appInfor.getPackageName()).find(AppInfor.class);
-                        if (dbList == null || dbList.isEmpty()) {
-                            appInfor.save();
-                        } else {
-                            appInfor.updateAll("packageName = ?", appInfor.getPackageName());
-                        }
-                        return appInfor;
-                    }
-                })
-
-                .compose(RxUtils.<AppInfor>applySchedulers())
-
-                .subscribe(new CustomObserver<AppInfor>(this) {
-                    @Override
-                    public void onNext(AppInfor appInfors) {
+                    public void onNext(List<AppInfor> appInfors) {
                         super.onNext(appInfors);
-                        datas.add(appInfors);
+                        datas.addAll(appInfors);
                         adapter.notifyItemAdd(datas.size());
                     }
                 });
-
-
     }
 
 
