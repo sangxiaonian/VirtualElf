@@ -1,5 +1,7 @@
 package sang.com.virtuallocation.ui;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -9,6 +11,7 @@ import android.os.RemoteException;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -70,7 +73,7 @@ public class Loaction_InstallAppActivity extends BaseActivity {
             public void run() {
                 showLoad();
             }
-        },1000);
+        }, 1000);
     }
 
     @Override
@@ -92,18 +95,30 @@ public class Loaction_InstallAppActivity extends BaseActivity {
 
                 return new BaseHolder<AppInfor>(context, parent, R.layout.loaction_item_install_app) {
                     @Override
-                    public void initView(View itemView, final int position, final AppInfor data) {
+                    public void initView(final View itemView, final int position, final AppInfor data) {
                         super.initView(itemView, position, data);
-                        ImageView imgIcon = itemView.findViewById(R.id.img_icon);
-                        TextView tv_title = itemView.findViewById(R.id.tv_title);
+                        final ImageView imgIcon = itemView.findViewById(R.id.img_icon);
+                        final TextView tv_title = itemView.findViewById(R.id.tv_title);
+                        final View llItem = itemView.findViewById(R.id.ll_item);
                         ViewUtils.setText(tv_title, data.appName);
                         ImageLoader.loadImage(mContext, data.getAppIcon(), imgIcon);
                         itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 BusFactory.getBus().postSticky(data);
-                                startActivity(new Intent(mContext,Location_AppDetailActivity.class));
+                                Intent intent = new Intent(mContext, Location_AppDetailActivity.class);
 
+
+                                Pair<View, String> imgPair = new Pair<>((View) imgIcon, getString(R.string.location_share_img_name));
+                                Pair<View, String> titlePair = new Pair<>((View)tv_title, getString(R.string.location_share_bt_name));
+
+                                ActivityOptions more = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext,imgPair, titlePair);
+
+                                ActivityOptions single = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext,
+                                        imgIcon, getString(R.string.location_share_img_name)) ;
+                                startActivity(
+                                        intent,more.toBundle()
+                                      );
 
                             }
                         });

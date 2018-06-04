@@ -23,6 +23,7 @@
             app:cardBackgroundColor="@color/color_of_default_bg"
             app:cardCornerRadius="10dp"
             app:cardElevation="4dp"
+
             app:cardPreventCornerOverlap="false"
             app:contentPadding="0dp">
 
@@ -35,6 +36,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -42,7 +44,9 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <sang.com.minitools.widget.CircularImageView
+                        android:transitionName="@string/location_share_img_name"
+
                         android:id="@+id/iv_icon"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
@@ -50,6 +54,8 @@
                         />
 
                     <TextView
+                        android:transitionName="@string/location_share_bt_name"
+
                         android:id="@+id/tv_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -57,7 +63,7 @@
                         android:layout_weight="1"
                         android:text="App"
                         android:textColor="@color/color_of_default_title_high"
-                        android:textSize="14sp" />
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 

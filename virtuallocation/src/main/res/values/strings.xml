@@ -2,4 +2,6 @@
     <string name="app_name">VirtualLocation</string>
     <string name="loaction_install">安装</string>
     <string name="loaction_app">选择应用</string>
+    <string name="location_share_bt_name">location_share_bt_name</string>
+    <string name="location_share_img_name">location_share_img_name</string>
 </resources>
