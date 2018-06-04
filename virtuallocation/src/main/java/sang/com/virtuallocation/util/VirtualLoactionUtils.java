@@ -3,8 +3,8 @@ package sang.com.virtuallocation.util;
 
 import android.content.Context;
 
-import com.amap.api.maps.CoordinateConverter;
-import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps2d.CoordinateConverter;
+import com.amap.api.maps2d.model.LatLng;
 import com.lody.virtual.client.ipc.VirtualLocationManager;
 import com.lody.virtual.remote.vloc.VCell;
 import com.lody.virtual.remote.vloc.VLocation;
@@ -18,7 +18,6 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 import sang.com.commonlibrary.entity.AppInfor;
 import sang.com.commonlibrary.utils.rx.RxUtils;
-import sang.com.virtuallocation.config.Configs;
 import sang.com.virtuallocation.entity.CellInfo;
 import sang.com.virtuallocation.entity.LocationBean;
 import sang.com.virtuallocation.entity.WifiInfo;
@@ -137,7 +136,7 @@ public class VirtualLoactionUtils {
 
         VLocation vLocation = new VLocation();
 
-        CoordinateConverter converter = new CoordinateConverter(context);
+        CoordinateConverter converter = new CoordinateConverter();
         converter.from(CoordinateConverter.CoordType.ALIYUN);
         LatLng ll = new LatLng(locInfo.getLatitude(), locInfo.getLongitude());
         converter.coord(ll);

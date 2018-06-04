@@ -3,7 +3,6 @@ package sang.com.virtuallocation.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.os.SystemClock;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -12,18 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.amap.api.maps.model.LatLng;
 import com.lody.virtual.client.core.VirtualCore;
 import com.lody.virtual.client.ipc.VirtualLocationManager;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import io.reactivex.functions.Function;
 import sang.com.commonlibrary.base.BaseActivity;
 import sang.com.commonlibrary.entity.AppInfor;
 import sang.com.commonlibrary.utils.ImageLoader;
@@ -106,7 +99,7 @@ public class Location_AppDetailActivity extends BaseActivity implements View.OnC
         if (event != null) {
             int mode = VirtualLocationManager.get().getMode(appInfor.getUserId(), appInfor.getPackageName());
             cbCollect.setOnCheckedChangeListener(this);
-            cbCollect.setChecked( mode != 0);
+            cbCollect.setChecked(mode != 0);
 
             ViewUtils.setText(tvName, event.getAppName());
             ImageLoader.loadImage(mContext, event.getAppIcon(), ivIcon);
@@ -175,6 +168,6 @@ public class Location_AppDetailActivity extends BaseActivity implements View.OnC
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         int mode = isChecked ? VirtualLocationManager.MODE_USE_SELF : VirtualLocationManager.MODE_CLOSE;
-        VirtualLocationManager.get().setMode(appInfor==null? Configs.appUserId:appInfor.getUserId(), appInfor.getPackageName(), mode);
+        VirtualLocationManager.get().setMode(appInfor == null ? Configs.appUserId : appInfor.getUserId(), appInfor.getPackageName(), mode);
     }
 }

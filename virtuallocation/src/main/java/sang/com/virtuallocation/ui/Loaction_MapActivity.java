@@ -1,39 +1,23 @@
 package sang.com.virtuallocation.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.support.annotation.IntDef;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EdgeEffect;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.amap.api.maps.AMap;
-import com.amap.api.maps.CameraUpdate;
-import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.MapView;
-import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.LatLngBounds;
-import com.amap.api.maps.model.Marker;
-import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.CameraUpdateFactory;
+import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
-import com.amap.api.services.core.SuggestionCity;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
-import com.amap.api.services.poisearch.PoiResult;
-import com.amap.api.services.poisearch.PoiSearch;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -41,9 +25,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 import sang.com.commonlibrary.base.BaseActivity;
-import sang.com.commonlibrary.entity.AppInfor;
 import sang.com.commonlibrary.utils.event.BusFactory;
-import sang.com.minitools.utlis.JLog;
 import sang.com.minitools.utlis.ToastUtils;
 import sang.com.virtuallocation.R;
 import sang.com.virtuallocation.entity.LocationBean;
@@ -108,7 +90,7 @@ public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoa
                 if (locationBean != null) {
                     BusFactory.getBus().post(locationBean);
                     finish();
-                }else {
+                } else {
                     ToastUtils.showTextToast("坐标转换中，请稍后");
                 }
             }
@@ -180,8 +162,8 @@ public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoa
         String formatAddress = regeocodeAddress.getFormatAddress();
         tvLoaction.setText("地址：\n" + formatAddress);
         LatLonPoint point = regeocodeResult.getRegeocodeQuery().getPoint();
-        if (locationBean==null){
-            locationBean=new LocationBean();
+        if (locationBean == null) {
+            locationBean = new LocationBean();
         }
         locationBean.setLatitude(point.getLatitude());
         locationBean.setLongitude(point.getLongitude());
@@ -212,11 +194,12 @@ public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoa
                 Marker marker = markers.get(0);
                 marker.setPosition(target);
             }
-            aMap.setLoadOfflineData(true);
+//            aMap.setLoadOfflineData(true);
+
             aMap.moveCamera(CameraUpdateFactory.newLatLng(target));
 
-            if (locationBean==null){
-                locationBean=new LocationBean();
+            if (locationBean == null) {
+                locationBean = new LocationBean();
             }
             locationBean.setLatitude(cameraPosition.getLatitude());
             locationBean.setLongitude(cameraPosition.getLongitude());
