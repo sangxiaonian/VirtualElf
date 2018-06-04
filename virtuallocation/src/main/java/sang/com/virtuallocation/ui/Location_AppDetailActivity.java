@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.amap.api.maps.model.LatLng;
 import com.lody.virtual.client.core.VirtualCore;
+import com.lody.virtual.client.ipc.VirtualLocationManager;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -110,6 +111,10 @@ public class Location_AppDetailActivity extends BaseActivity implements View.OnC
     public void onLocationEvent(LocationBean event) {
         if (event != null&&appInfor!=null) {
             this.locationBean=event;
+//            int mode = isChecked ? VirtualLocationManager.MODE_USE_SELF : VirtualLocationManager.MODE_CLOSE;
+            int mode = true ? VirtualLocationManager.MODE_USE_SELF : VirtualLocationManager.MODE_CLOSE;
+
+            VirtualLocationManager.get().setMode(0, appInfor.getPackageName(), mode);
             VirtualLoactionUtils
                     .changeLoaction(locationBean,appInfor,this)
                     .subscribe(new CustomObserver<VirtualLoactionUtils.ResultLoaction>(this){

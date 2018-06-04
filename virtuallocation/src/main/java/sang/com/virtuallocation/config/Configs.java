@@ -5,6 +5,10 @@ package sang.com.virtuallocation.config;
  */
 
 public class Configs {
+
+    /**
+     * 服务器万能的转接接口，但是目前只适配了json
+     */
     public static final String baseUrl="http://apis.ascwh.com/";
 
 

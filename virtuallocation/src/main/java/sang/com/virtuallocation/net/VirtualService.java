@@ -6,6 +6,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 import sang.com.virtuallocation.entity.CellInfo;
@@ -64,7 +65,7 @@ public interface VirtualService {
      *
      * @return
      */
-    @GET("recell")
+    @POST("./")
     Observable<List<CellInfo>> recell(@Body RequestBean bean);
 
     /**
@@ -72,7 +73,7 @@ public interface VirtualService {
      *
      * @return
      */
-    @GET("rewifi")
+    @POST("./")
     Observable<List<WifiInfo>> rewifi(@Body RequestBean bean);
 
 }
