@@ -3,6 +3,7 @@ package sang.com.virtuallocation.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.functions.Function;
 import sang.com.commonlibrary.base.BaseActivity;
 import sang.com.commonlibrary.entity.AppInfor;
 import sang.com.commonlibrary.utils.ImageLoader;

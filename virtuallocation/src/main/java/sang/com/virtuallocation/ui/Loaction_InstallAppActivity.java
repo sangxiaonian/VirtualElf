@@ -83,7 +83,7 @@ public class Loaction_InstallAppActivity extends BaseActivity {
     protected void initData() {
         super.initData();
         datas = new ArrayList<>();
-        GridLayoutManager manager = new GridLayoutManager(mContext, 3);
+        GridLayoutManager manager = new GridLayoutManager(mContext, 1);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(manager);
         adapter = new XAdapter<AppInfor>(mContext, datas) {

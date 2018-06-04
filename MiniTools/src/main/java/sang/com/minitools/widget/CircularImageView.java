@@ -73,9 +73,7 @@ public class CircularImageView extends android.support.v7.widget.AppCompatImageV
 
     public CircularImageView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
         initView(context, attrs);
-        setRadius(100);
         setBackgroundColor(Color.WHITE);
     }
 
