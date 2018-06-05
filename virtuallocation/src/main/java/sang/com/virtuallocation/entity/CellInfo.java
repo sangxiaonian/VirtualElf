@@ -61,29 +61,5 @@ public class CellInfo extends DataSupport{
         this.location = location;
     }
 
-    public static class LocationBean extends DataSupport{
-        /**
-         * lon : 116.343278
-         * lat : 39.531734
-         */
 
-        private double lon;
-        private double lat;
-
-        public double getLon() {
-            return lon;
-        }
-
-        public void setLon(double lon) {
-            this.lon = lon;
-        }
-
-        public double getLat() {
-            return lat;
-        }
-
-        public void setLat(double lat) {
-            this.lat = lat;
-        }
-    }
 }

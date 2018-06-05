@@ -7,8 +7,8 @@ package sang.com.virtuallocation.entity;
 public class LocationBean {
 
     public String name;
-    public double latitude;
-    private double longitude;
+    public double lon;
+    private double lat;
     private String cityName;
 
 
@@ -20,12 +20,12 @@ public class LocationBean {
         this.cityName = cityName;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public double getLat() {
+        return lat;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public double getLon() {
+        return lon;
     }
 
     public String getName() {
@@ -36,11 +36,11 @@ public class LocationBean {
         this.name = name;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void setLon(double lon) {
+        this.lon = lon;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 }

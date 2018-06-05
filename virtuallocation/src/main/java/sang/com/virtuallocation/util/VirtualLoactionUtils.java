@@ -102,8 +102,8 @@ public class VirtualLoactionUtils {
      *
      */
     public static Observable<LoactionInfor> changeLoaction(final LocationBean locationBean, final AppInfor appInfor) {
-        Observable<List<CellInfo>> cell = VirtualHttpFactory.reCell(locationBean.getLatitude(), locationBean.getLongitude());
-        Observable<List<WifiInfo>> wifi = VirtualHttpFactory.reWifi(locationBean.getLatitude(), locationBean.getLongitude());
+        Observable<List<CellInfo>> cell = VirtualHttpFactory.reCell(locationBean.getLon(), locationBean.getLat());
+        Observable<List<WifiInfo>> wifi = VirtualHttpFactory.reWifi(locationBean.getLon(), locationBean.getLat());
         return Observable
                 .zip(cell, wifi, new BiFunction<List<CellInfo>, List<WifiInfo>, LoactionInfor>() {
 
@@ -130,7 +130,7 @@ public class VirtualLoactionUtils {
         VLocation vLocation = new VLocation();
         CoordinateConverter converter = new CoordinateConverter();
         converter.from(CoordinateConverter.CoordType.ALIYUN);
-        LatLng ll = new LatLng(locInfo.getLatitude(), locInfo.getLongitude());
+        LatLng ll = new LatLng(locInfo.getLon(), locInfo.getLat());
         converter.coord(ll);
         ll = converter.convert();
 
