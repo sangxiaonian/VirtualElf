@@ -2,24 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="sang.com.virtualelf.SplashActivity">
 
-    <include layout="@layout/toolbar"/>
 
-    <Button
+    <ImageView
+        android:id="@+id/img"
         android:layout_width="match_parent"
-        android:id="@+id/bt"
-        android:text="已安装的APP"
-        android:layout_height="wrap_content" />
-
-<Button
-        android:layout_width="match_parent"
-        android:id="@+id/bt_map"
-        android:text="地图"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+         />
 
 
 </LinearLayout>

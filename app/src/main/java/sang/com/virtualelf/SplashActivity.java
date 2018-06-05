@@ -2,6 +2,8 @@ package sang.com.virtualelf;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 
 import sang.com.commonlibrary.base.BaseActivity;
@@ -11,25 +13,17 @@ import sang.com.virtuallocation.ui.Loaction_MapActivity;
 
 public class SplashActivity extends BaseActivity {
 
+    private View view;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setToolTitle("已安装应用");
-        setLefttImg(0);
-        findViewById(R.id.bt).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mContext, Loaction_InstallAppActivity.class));
-            }
-        });
-        findViewById(R.id.bt_map).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mContext, Loaction_MapActivity.class));
-            }
-        });
-
-
+          view = findViewById(R.id.img);
+        ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view,
+                view.getWidth() / 2, view.getHeight() / 2, 0, 0);
+        ActivityCompat.startActivity(mContext, new Intent(mContext, Loaction_InstallAppActivity.class),
+                compat.toBundle());
+        finish();
     }
 }
