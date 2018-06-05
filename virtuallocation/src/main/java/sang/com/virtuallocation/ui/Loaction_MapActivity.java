@@ -49,7 +49,13 @@ public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loaction__map);
         setToolTitle("选择位置");
+        setRightText("离线地图");
+        setRightOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
         initView();
         initData();
         initListener();
@@ -196,7 +202,7 @@ public class Loaction_MapActivity extends BaseActivity implements MapUtils.OnLoa
             }
 //            aMap.setLoadOfflineData(true);
 
-            aMap.moveCamera(CameraUpdateFactory.newLatLng(target));
+            aMap.moveCamera(CameraUpdateFactory.changeLatLng(target));
 
             if (locationBean == null) {
                 locationBean = new LocationBean();

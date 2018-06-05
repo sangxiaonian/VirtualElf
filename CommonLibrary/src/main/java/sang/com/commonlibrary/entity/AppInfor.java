@@ -44,6 +44,10 @@ public class AppInfor extends DataSupport {
     private boolean isFirstOpen;
 
     private int userId;
+    /**
+     * 是否是私有应用
+     */
+    private boolean isPri;
 
 
     public String getPackageName() {

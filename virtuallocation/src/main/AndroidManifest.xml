@@ -7,7 +7,9 @@
         <activity android:name=".ui.Loaction_InstallAppActivity" />
         <activity android:name=".ui.Loaction_MapActivity" />
         <activity android:name=".ui.Location_SearchActivity" />
-        <activity android:name=".ui.Location_AppDetailActivity"></activity>
+        <activity android:name=".ui.Location_AppDetailActivity" />
+        <activity android:name=".ui.Loaction_OfflineMapsActivity"></activity>
+
     </application>
 
 </manifest>

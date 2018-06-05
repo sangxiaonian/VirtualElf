@@ -27,6 +27,7 @@ import sang.com.minitools.utlis.ToastUtils;
 import sang.com.minitools.utlis.ViewUtils;
 import sang.com.virtuallocation.R;
 import sang.com.virtuallocation.config.Configs;
+import sang.com.virtuallocation.entity.LoactionInfor;
 import sang.com.virtuallocation.entity.LocationBean;
 import sang.com.virtuallocation.util.VirtualLoactionUtils;
 import sang.com.virtuallocation.virtual.VirtualSDKUtils;
@@ -119,10 +120,10 @@ public class Location_AppDetailActivity extends BaseActivity implements View.OnC
             this.locationBean = event;
             JLog.i("");
             VirtualLoactionUtils
-                    .changeLoaction(locationBean, appInfor, this)
-                    .subscribe(new CustomObserver<VirtualLoactionUtils.ResultLoaction>(this) {
+                    .changeLoaction(locationBean, appInfor )
+                    .subscribe(new CustomObserver<LoactionInfor>(this) {
                         @Override
-                        public void onNext(VirtualLoactionUtils.ResultLoaction resultLoaction) {
+                        public void onNext( LoactionInfor resultLoaction) {
                             super.onNext(resultLoaction);
                             ToastUtils.showTextToast("GPS更改成功");
                             ViewUtils.setText(tvAddress, event.getName());

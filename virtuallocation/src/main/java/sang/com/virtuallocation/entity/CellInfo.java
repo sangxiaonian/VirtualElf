@@ -1,9 +1,11 @@
 package sang.com.virtuallocation.entity;
 
+import org.litepal.crud.DataSupport;
+
 /**
  */
 
-public class CellInfo {
+public class CellInfo extends DataSupport{
 
     /**
      * mnc : 1
@@ -59,7 +61,7 @@ public class CellInfo {
         this.location = location;
     }
 
-    public static class LocationBean {
+    public static class LocationBean extends DataSupport{
         /**
          * lon : 116.343278
          * lat : 39.531734

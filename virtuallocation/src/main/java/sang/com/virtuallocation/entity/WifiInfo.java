@@ -1,10 +1,12 @@
 package sang.com.virtuallocation.entity;
 
+import org.litepal.crud.DataSupport;
+
 /**
  * @author pengl
  */
 
-public class WifiInfo {
+public class WifiInfo extends DataSupport{
 
     /**
      * mac : bc:d1:77:16:21:84
