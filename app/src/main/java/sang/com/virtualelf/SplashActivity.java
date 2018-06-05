@@ -9,7 +9,7 @@ import sang.com.virtuallocation.ui.Loacition_PhoneAppdActivity;
 import sang.com.virtuallocation.ui.Loaction_InstallAppActivity;
 import sang.com.virtuallocation.ui.Loaction_MapActivity;
 
-public class MainActivity extends BaseActivity {
+public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

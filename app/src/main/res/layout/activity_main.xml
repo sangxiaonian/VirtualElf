@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="sang.com.virtualelf.MainActivity">
+    tools:context="sang.com.virtualelf.SplashActivity">
 
     <include layout="@layout/toolbar"/>
 
