@@ -239,55 +239,44 @@ public class Loaction_InstallAppActivity extends BaseActivity {
 
 
     public void installAppList(final List<AppInfor> list) {
-//        Observable.fromIterable(list)
-//                .map(new Function<AppInfor, AppInfor>() {
-//
-//                    @Override
-//                    public AppInfor apply(AppInfor appInfor) throws Exception {
-//                        return VirtualSDKUtils.getInstance().installApk(appInfor);
-//                    }
-//                })
-//                .filter(new Predicate<AppInfor>() {
-//                    @Override
-//                    public boolean test(AppInfor appInfor) throws Exception {
-//                        return appInfor != null;
-//                    }
-//                })
-//                .map(new Function<AppInfor, AppInfor>() {
-//                    @Override
-//                    public AppInfor apply(AppInfor appInfor) throws Exception {
-//                        List<AppInfor> dbList = DataSupport.where("packageName = ?", appInfor.getPackageName()).find(AppInfor.class);
-//                        if (dbList == null || dbList.isEmpty()) {
-//                            appInfor.save();
-//                        } else {
-//                            appInfor.updateAll("packageName = ?", appInfor.getPackageName());
-//                        }
-//                        return appInfor;
-//                    }
-//                })
-//
-//                .compose(RxUtils.<AppInfor>applySchedulers())
-//
-//                .subscribe(new CustomObserver<AppInfor>(this) {
-//                    @Override
-//                    public void onNext(AppInfor appInfors) {
-//                        super.onNext(appInfors);
-//                        datas.add(appInfors);
-//                        adapter.notifyItemAdd(datas.size());
-//                    }
-//                });
+        Observable.fromIterable(list)
+                .map(new Function<AppInfor, AppInfor>() {
 
-        VirtualInstallUtils
-                .getInstance()
-                .installAppList(list)
-                .subscribe(new CustomObserver<List<AppInfor>>(this) {
                     @Override
-                    public void onNext(List<AppInfor> appInfors) {
+                    public AppInfor apply(AppInfor appInfor) throws Exception {
+                        return VirtualSDKUtils.getInstance().installApk(appInfor);
+                    }
+                })
+                .filter(new Predicate<AppInfor>() {
+                    @Override
+                    public boolean test(AppInfor appInfor) throws Exception {
+                        return appInfor != null;
+                    }
+                })
+                .map(new Function<AppInfor, AppInfor>() {
+                    @Override
+                    public AppInfor apply(AppInfor appInfor) throws Exception {
+                        List<AppInfor> dbList = DataSupport.where("packageName = ?", appInfor.getPackageName()).find(AppInfor.class);
+                        if (dbList == null || dbList.isEmpty()) {
+                            appInfor.save();
+                        } else {
+                            appInfor.updateAll("packageName = ?", appInfor.getPackageName());
+                        }
+                        return appInfor;
+                    }
+                })
+
+                .compose(RxUtils.<AppInfor>applySchedulers())
+
+                .subscribe(new CustomObserver<AppInfor>(this) {
+                    @Override
+                    public void onNext(AppInfor appInfors) {
                         super.onNext(appInfors);
-                        datas.addAll(appInfors);
+                        datas.add(appInfors);
                         adapter.notifyItemAdd(datas.size());
                     }
                 });
+
     }
 
 

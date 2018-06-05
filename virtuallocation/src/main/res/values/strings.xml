@@ -4,4 +4,14 @@
     <string name="loaction_app">选择应用</string>
     <string name="location_share_bt_name">location_share_bt_name</string>
     <string name="location_share_img_name">location_share_img_name</string>
+    <string name="location_collect_success">收藏成功</string>
+    <string name="location_change_gps">GPS更改成功</string>
+    <string name="location_no_select_location">尚未选择位置信息，是否前往？</string>
+    <string name="location_go">前往</string>
+    <string name="location_cancle_go">算了，不去了</string>
+    <string name="location_entry_collection">确定要收藏</string>
+    <string name="location_collection">收藏</string>
+    <string name="location_cancle">取消</string>
+    <string name="location_my_collection">我的收藏</string>
+    <string name="location_app_detail">应用详情</string>
 </resources>

@@ -16,10 +16,10 @@ import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Function3;
 import sang.com.commonlibrary.entity.AppInfor;
 import sang.com.commonlibrary.utils.rx.RxUtils;
 import sang.com.virtuallocation.entity.CellInfo;
-import sang.com.virtuallocation.entity.LoactionInfor;
 import sang.com.virtuallocation.entity.LocationBean;
 import sang.com.virtuallocation.entity.WifiInfo;
 import sang.com.virtuallocation.net.VirtualHttpFactory;
@@ -38,15 +38,15 @@ public class VirtualLoactionUtils {
      *
      * @return
      */
-    public static ObservableTransformer<LoactionInfor, LoactionInfor> changWifiInfor(final AppInfor appInfor) {
-        return new ObservableTransformer<LoactionInfor, LoactionInfor>() {
+    public static ObservableTransformer<LocationBean, LocationBean> changWifiInfor(final AppInfor appInfor) {
+        return new ObservableTransformer<LocationBean, LocationBean>() {
 
             @Override
-            public ObservableSource<LoactionInfor> apply(Observable<LoactionInfor> upstream) {
+            public ObservableSource<LocationBean> apply(Observable<LocationBean> upstream) {
 
-                return upstream.map(new Function<LoactionInfor, LoactionInfor>() {
+                return upstream.map(new Function<LocationBean, LocationBean>() {
                     @Override
-                    public LoactionInfor apply(LoactionInfor data) throws Exception {
+                    public LocationBean apply(LocationBean data) throws Exception {
                         List<CellInfo> cellList = data.getCellInfoList();
                         List<WifiInfo> wifiList = data.getWifiInfoList();
 
@@ -75,7 +75,7 @@ public class VirtualLoactionUtils {
                                 packageName, vWifiList);
 
                         VirtualLocationManager.get().setLocation(appInfor.getUserId(),
-                                packageName, transferLocation(data.getLocationInfo()));
+                                packageName, transferLocation(data));
                         return data;
                     }
                 });
@@ -87,11 +87,11 @@ public class VirtualLoactionUtils {
         };
     }
 
-    public static Observable<LoactionInfor> changeLoaction(LoactionInfor resultLoaction, AppInfor appInfor) {
+    public static Observable<LocationBean> changeLoactionByCollection(LocationBean resultLoaction, AppInfor appInfor) {
         return Observable
                 .just(resultLoaction)
-                .compose(VirtualLoactionUtils.<LoactionInfor>changWifiInfor(appInfor))
-                .compose(RxUtils.<LoactionInfor>applySchedulers());
+                .compose(VirtualLoactionUtils.<LocationBean>changWifiInfor(appInfor))
+                .compose(RxUtils.<LocationBean>applySchedulers());
 
     }
 
@@ -101,24 +101,22 @@ public class VirtualLoactionUtils {
      *  @param locationBean
      *
      */
-    public static Observable<LoactionInfor> changeLoaction(final LocationBean locationBean, final AppInfor appInfor) {
+    public static Observable<LocationBean> changeLoaction(final LocationBean locationBean, final AppInfor appInfor) {
         Observable<List<CellInfo>> cell = VirtualHttpFactory.reCell(locationBean.getLon(), locationBean.getLat());
         Observable<List<WifiInfo>> wifi = VirtualHttpFactory.reWifi(locationBean.getLon(), locationBean.getLat());
         return Observable
-                .zip(cell, wifi, new BiFunction<List<CellInfo>, List<WifiInfo>, LoactionInfor>() {
+                .zip(cell, wifi, Observable.just(locationBean),new Function3<List<CellInfo>, List<WifiInfo>, LocationBean, LocationBean>() {
 
                     @Override
-                    public LoactionInfor apply(List<CellInfo> cellInfos, List<WifiInfo> wifiInfos) throws Exception {
-                        LoactionInfor loaction = new LoactionInfor();
-                        loaction.setCellInfoList(cellInfos);
-                        loaction.setWifiInfoList(wifiInfos);
-                        loaction.setLocationInfo(locationBean);
+                    public LocationBean apply(List<CellInfo> cellInfos, List<WifiInfo> wifiInfos,LocationBean locationBean) throws Exception {
+                        locationBean.setCellInfoList(cellInfos);
+                        locationBean.setWifiInfoList(wifiInfos);
 
-                        return loaction;
+                        return locationBean;
                     }
                 })
                 .compose(changWifiInfor(appInfor))
-                .compose(RxUtils.<LoactionInfor>applySchedulers())
+                .compose(RxUtils.<LocationBean>applySchedulers())
                 ;
 
 

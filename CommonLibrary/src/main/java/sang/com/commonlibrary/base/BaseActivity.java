@@ -107,7 +107,7 @@ public class BaseActivity extends AppCompatActivity implements BaseControl.TaskL
         setLeftOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
 

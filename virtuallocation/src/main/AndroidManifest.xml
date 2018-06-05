@@ -8,8 +8,8 @@
         <activity android:name=".ui.Loaction_MapActivity" />
         <activity android:name=".ui.Location_SearchActivity" />
         <activity android:name=".ui.Location_AppDetailActivity" />
-        <activity android:name=".ui.Loaction_OfflineMapsActivity"></activity>
-
+        <activity android:name=".ui.Loaction_OfflineMapsActivity" />
+        <activity android:name=".ui.Location_CollectionActivity"></activity>
     </application>
 
 </manifest>

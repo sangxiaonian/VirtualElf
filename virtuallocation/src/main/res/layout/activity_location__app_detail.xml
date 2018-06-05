@@ -101,6 +101,8 @@
         android:background="@color/color_of_line" />
 
     <RelativeLayout
+        android:clickable="true"
+        android:longClickable="true"
         android:id="@+id/rl_position"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -122,13 +124,14 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:orientation="vertical"
+
             android:padding="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:text="位置模拟"
+                android:id="@+id/tv_address_title"
+                android:text="选择位置"
                 android:textColor="@color/color_of_default_title_high"
                 android:textSize="14sp" />
 

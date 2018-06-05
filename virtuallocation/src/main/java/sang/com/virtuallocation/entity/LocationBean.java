@@ -1,16 +1,23 @@
 package sang.com.virtuallocation.entity;
 
+import org.litepal.crud.DataSupport;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 作者： ${PING} on 2018/6/1.
  */
 
-public class LocationBean {
+public class LocationBean extends DataSupport {
 
     public String name;
     public double lon;
-    private double lat;
-    private String cityName;
+    public double lat;
+    public String cityName;
+    public List<CellInfo> cellInfoList = new ArrayList<>();
 
+    private List<WifiInfo> wifiInfoList = new ArrayList<>();
 
     public String getCityName() {
         return cityName;
@@ -42,5 +49,21 @@ public class LocationBean {
 
     public void setLat(double lat) {
         this.lat = lat;
+    }
+
+    public List<CellInfo> getCellInfoList() {
+        return cellInfoList;
+    }
+
+    public void setCellInfoList(List<CellInfo> cellInfoList) {
+        this.cellInfoList = cellInfoList;
+    }
+
+    public List<WifiInfo> getWifiInfoList() {
+        return wifiInfoList;
+    }
+
+    public void setWifiInfoList(List<WifiInfo> wifiInfoList) {
+        this.wifiInfoList = wifiInfoList;
     }
 }

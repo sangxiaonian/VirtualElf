@@ -5,6 +5,9 @@
     <version value="3" ></version>
 
     <list>
-        <mapping class="sang.com.commonlibrary.entity.AppInfor"></mapping>
+        <mapping class="sang.com.commonlibrary.entity.AppInfor"/>
+        <mapping class="sang.com.virtuallocation.entity.LocationBean"/>
+        <mapping class="sang.com.virtuallocation.entity.WifiInfo"/>
+        <mapping class="sang.com.virtuallocation.entity.CellInfo"/>
     </list>
 </litepal>

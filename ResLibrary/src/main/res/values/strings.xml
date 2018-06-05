@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ResLibrary</string>
+    <string name="res_tool_tran_name">res_tool_tran_name</string>
 </resources>

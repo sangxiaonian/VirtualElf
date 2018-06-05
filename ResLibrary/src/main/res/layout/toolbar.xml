@@ -26,6 +26,7 @@
     </LinearLayout>
 
     <TextView
+        android:transitionName="@string/res_tool_tran_name"
         android:id="@+id/tool_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

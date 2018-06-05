@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_of_default_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/ll_bow"
+        android:background="@color/color_of_white"
+        android:layout_width="match_parent"
+        android:padding="@dimen/dp_default_gap"
+        android:layout_height="wrap_content">
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp" />
+        <LinearLayout
+            android:id="@+id/ll_cancle"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:background="#abcdef"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+
+            <TextView
+                android:text="@string/cancel"
+                android:textSize="12sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/color_of_default_title_high"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp" />
+
+        <LinearLayout
+            android:id="@+id/ll_deleted"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:background="#abcdef"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+
+            <TextView
+                android:text="删除"
+                android:textSize="12sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/color_of_default_title_high"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
