@@ -6,6 +6,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -65,6 +66,7 @@ public interface VirtualService {
      *
      * @return
      */
+    @Headers("Cache-Control: max-age="+(1000*60*60*24*3))
     @POST("./")
     Observable<List<CellInfo>> recell(@Body RequestBean bean);
 
@@ -73,6 +75,7 @@ public interface VirtualService {
      *
      * @return
      */
+    @Headers("Cache-Control: max-age="+(1000*60*60*24*3))
     @POST("./")
     Observable<List<WifiInfo>> rewifi(@Body RequestBean bean);
 

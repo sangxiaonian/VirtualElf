@@ -31,8 +31,6 @@ import sang.com.virtuallocation.net.VirtualHttpFactory;
 public class VirtualLoactionUtils {
 
 
-
-
     /**
      * 子线程请求，主线程接收
      *
@@ -98,25 +96,34 @@ public class VirtualLoactionUtils {
 
     /**
      * 根据坐标信息虚拟位置
-     *  @param locationBean
      *
+     * @param locationBean
      */
     public static Observable<LocationBean> changeLoaction(final LocationBean locationBean, final AppInfor appInfor) {
-        Observable<List<CellInfo>> cell = VirtualHttpFactory.reCell(locationBean.getLon(), locationBean.getLat());
-        Observable<List<WifiInfo>> wifi = VirtualHttpFactory.reWifi(locationBean.getLon(), locationBean.getLat());
-        return Observable
-                .zip(cell, wifi, Observable.just(locationBean),new Function3<List<CellInfo>, List<WifiInfo>, LocationBean, LocationBean>() {
+        Observable<LocationBean> just;
+        if (locationBean.getCellInfoList() != null && !locationBean.getCellInfoList().isEmpty()) {
+            just = Observable.just(locationBean);
+        } else {
+            Observable<List<CellInfo>> cell = VirtualHttpFactory.reCell(locationBean.getLon(), locationBean.getLat());
+            Observable<List<WifiInfo>> wifi = VirtualHttpFactory.reWifi(locationBean.getLon(), locationBean.getLat());
+            just = Observable
+                    .zip(cell, wifi, Observable.just(locationBean), new Function3<List<CellInfo>, List<WifiInfo>, LocationBean, LocationBean>() {
 
-                    @Override
-                    public LocationBean apply(List<CellInfo> cellInfos, List<WifiInfo> wifiInfos,LocationBean locationBean) throws Exception {
-                        locationBean.setCellInfoList(cellInfos);
-                        locationBean.setWifiInfoList(wifiInfos);
+                        @Override
+                        public LocationBean apply(List<CellInfo> cellInfos, List<WifiInfo> wifiInfos, LocationBean locationBean) throws Exception {
+                            locationBean.setCellInfoList(cellInfos);
+                            locationBean.setWifiInfoList(wifiInfos);
+                            return locationBean;
+                        }
+                    });
 
-                        return locationBean;
-                    }
-                })
-                .compose(changWifiInfor(appInfor))
-                .compose(RxUtils.<LocationBean>applySchedulers())
+        }
+
+
+        return
+                just
+                        .compose(changWifiInfor(appInfor))
+                        .compose(RxUtils.<LocationBean>applySchedulers())
                 ;
 
 

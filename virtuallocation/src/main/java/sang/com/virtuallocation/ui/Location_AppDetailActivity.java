@@ -191,7 +191,6 @@ public class Location_AppDetailActivity extends BaseActivity implements View.OnC
             VirtualLoactionUtils
                     .changeLoaction(event, appInfor)
                     .subscribe(new CustomObserver<LocationBean>(this) {
-
                         @Override
                         public void onNext(LocationBean result) {
                             super.onNext(result);
