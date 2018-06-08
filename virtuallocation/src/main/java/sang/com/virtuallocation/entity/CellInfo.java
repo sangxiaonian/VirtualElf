@@ -5,7 +5,7 @@ import org.litepal.crud.DataSupport;
 /**
  */
 
-public class CellInfo extends DataSupport{
+public class CellInfo extends DataSupport {
 
     /**
      * mnc : 1
@@ -19,8 +19,18 @@ public class CellInfo extends DataSupport{
     private int lac;
     private int ci;
     private int acc;
+    public String name;
     private LocationBean location;
 
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     public int getMnc() {
         return mnc;
     }

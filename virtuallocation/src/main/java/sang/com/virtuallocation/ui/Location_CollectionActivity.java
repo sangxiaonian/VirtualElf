@@ -23,7 +23,9 @@ import sang.com.commonlibrary.utils.rx.CustomObserver;
 import sang.com.commonlibrary.utils.rx.RxUtils;
 import sang.com.minitools.utlis.JLog;
 import sang.com.virtuallocation.R;
+import sang.com.virtuallocation.entity.CellInfo;
 import sang.com.virtuallocation.entity.LocationBean;
+import sang.com.virtuallocation.entity.WifiInfo;
 import sang.com.virtuallocation.ui.adapter.CollectionAdapter;
 
 /**
@@ -156,6 +158,14 @@ public class Location_CollectionActivity extends BaseActivity implements View.On
                         for (LocationBean locationBean : locationBeans) {
                             CollectionAdapter.CollectionBean bean = new CollectionAdapter.CollectionBean();
                             bean.setLocationBean(locationBean);
+
+                            List<WifiInfo> wifiInfos = DataSupport.where("name=?",  locationBean.getName()).find(WifiInfo.class);
+                            List<CellInfo> cellInfos = DataSupport.where("name=?",  locationBean.getName()).find(CellInfo.class);
+                            locationBean.setCellInfoList(cellInfos);
+                            locationBean.setWifiInfoList(wifiInfos);
+                            JLog.i(locationBean.toString());
+
+
                             beans.add(bean);
                         }
                         return beans;
@@ -197,6 +207,7 @@ public class Location_CollectionActivity extends BaseActivity implements View.On
                         for (CollectionAdapter.CollectionBean bean : collectionBeans) {
                             if (bean.isSelect()) {
                                 bean.getLocationBean().delete();
+
                                 deleted.add(bean);
                             }
                         }

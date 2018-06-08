@@ -130,12 +130,8 @@ public class Location_AppDetailActivity extends BaseActivity implements View.OnC
                                 dialog.dismiss();
 
                                 if (resultLoaction != null) {
-                                    List<LocationBean> beans = DataSupport.where("name = ?", resultLoaction.getName()).find(LocationBean.class);
-                                    if (beans.isEmpty()){
-                                        resultLoaction.save();
-                                    }else {
-                                        resultLoaction.updateAll("name = ?", resultLoaction.getName());
-                                    }
+
+                                    resultLoaction.saveOrUpdate("name = ?", resultLoaction.getName());
 
                                     ToastUtils.showTextToast(getString(R.string.location_collect_success));
                                 } else {

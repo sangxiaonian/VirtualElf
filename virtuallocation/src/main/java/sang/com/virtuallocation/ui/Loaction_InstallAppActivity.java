@@ -3,11 +3,10 @@ package sang.com.virtuallocation.ui;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,23 +16,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.lody.virtual.client.core.VirtualCore;
-import com.lody.virtual.os.VUserInfo;
-import com.lody.virtual.os.VUserManager;
-import com.lody.virtual.remote.InstallResult;
-import com.lody.virtual.remote.InstalledAppInfo;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.litepal.crud.DataSupport;
-import org.reactivestreams.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import sang.com.commonlibrary.base.BaseActivity;
@@ -46,10 +37,8 @@ import sang.com.commonlibrary.xadapter.XAdapter;
 import sang.com.commonlibrary.xadapter.holder.BaseHolder;
 import sang.com.commonlibrary.xadapter.holder.PeakHolder;
 import sang.com.minitools.utlis.JLog;
-import sang.com.minitools.utlis.ToastUtils;
 import sang.com.minitools.utlis.ViewUtils;
 import sang.com.virtuallocation.R;
-import sang.com.virtuallocation.virtual.VirtualInstallUtils;
 import sang.com.virtuallocation.virtual.VirtualSDKUtils;
 
 /**
@@ -106,13 +95,19 @@ public class Loaction_InstallAppActivity extends BaseActivity {
                                 Pair<View, String> imgPair = new Pair<>((View) imgIcon, getString(R.string.location_share_img_name));
                                 Pair<View, String> titlePair = new Pair<>((View) tv_title, getString(R.string.location_share_bt_name));
 
-                                ActivityOptions more = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, imgPair, titlePair);
+                                if ( Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
 
-                                ActivityOptions single = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext,
-                                        imgIcon, getString(R.string.location_share_img_name));
-                                startActivity(
-                                        intent, more.toBundle()
-                                );
+                                    ActivityOptions more = null;
+                                        more = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, imgPair, titlePair);
+
+                                    ActivityOptions single = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext,
+                                            imgIcon, getString(R.string.location_share_img_name));
+                                    startActivity(
+                                            intent, more.toBundle()
+                                    );
+                                } else {
+                                    startActivity(intent);
+                                }
 
                             }
                         });
@@ -231,8 +226,8 @@ public class Loaction_InstallAppActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(List<AppInfor> event) {
-        JLog.i("获取到数据了"+event.size());
-        if ( !event.isEmpty()) {
+        JLog.i("获取到数据了" + event.size());
+        if (!event.isEmpty()) {
             installAppList(event);
         }
     }

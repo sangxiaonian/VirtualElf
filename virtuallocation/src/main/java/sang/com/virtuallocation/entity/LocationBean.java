@@ -11,6 +11,7 @@ import java.util.List;
 
 public class LocationBean extends DataSupport {
 
+    public int id;
     public String name;
     public double lon;
     public double lat;
@@ -18,6 +19,60 @@ public class LocationBean extends DataSupport {
     public List<CellInfo> cellInfoList = new ArrayList<>();
 
     private List<WifiInfo> wifiInfoList = new ArrayList<>();
+
+
+    @Override
+    public synchronized int delete() {
+
+        for (WifiInfo wifiInfo : wifiInfoList) {
+            wifiInfo.delete();
+        }
+        for (CellInfo cellInfo : cellInfoList) {
+            cellInfo.delete();
+        }
+        return super.delete();
+    }
+
+    @Override
+    public synchronized boolean saveOrUpdate(String... conditions) {
+
+        if (!cellInfoList.isEmpty()) {
+            for (CellInfo cellInfo : cellInfoList) {
+                cellInfo.setName(name);
+                cellInfo.save();
+            }
+        }
+        if (!wifiInfoList.isEmpty()) {
+            for (WifiInfo cellInfo : wifiInfoList) {
+                cellInfo.setName(name);
+                cellInfo.save();
+            }
+        }
+
+
+        return super.saveOrUpdate(conditions);
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "LocationBean{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lon=" + lon +
+                ", lat=" + lat +
+                ", cityName='" + cityName + '\'' +
+                ", cellInfoList=" + cellInfoList +
+                ", wifiInfoList=" + wifiInfoList +
+                '}';
+    }
 
     public String getCityName() {
         return cityName;
